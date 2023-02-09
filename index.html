@@ -41,22 +41,21 @@
 <script>
 mapboxgl.accessToken = 'pk.eyJ1IjoiZm12YWxkZXpnODQiLCJhIjoiY2w5eWJzMzkwMDNiaDNvbGltamV1ajdvNiJ9.esyugI1HyBVPAQcRN551xw';
 
-//const map = new mapboxgl.Map({
- //container: 'map',
-  //style: 'mapbox://styles/mapbox/light-v11',
-  //center: [-75.13996125000006,39.990809034007185],
-  //zoom: 14
-//});
-
-var map = new mapboxgl.Map({
+const map = new mapboxgl.Map({
  container: 'map',
  style: 'mapbox://styles/mapbox/light-v11',
  center: [-75.13996125000006,39.990809034007185],
- zoom: 14,
- //bearing: 360.0,
- antialias: true,
- //attributionControl: false
+ zoom: 14
 });
+
+//var map = new mapboxgl.Map({
+ //container: 'map',
+ //style: styleJSON,
+ //center: [-75.13996125000006,39.990809034007185],
+ //zoom: 14,
+ //bearing: 360.0,
+ //attributionControl: false
+//});
 map.addControl(new mapboxgl.NavigationControl(), 'top-left');
 map.addControl(new mapboxgl.AttributionControl({
     customAttribution: '<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://github.com/mapbox/mapbox-gl-js" target="_blank">Mapbox GL JS</a> &middot; <a href="https://qgis.org" target="_blank">QGIS</a>',
