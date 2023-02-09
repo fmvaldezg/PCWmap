@@ -21,7 +21,7 @@
             margin: 0;
         }
         </style>
-        <title></title>
+        <title>Philly Community Wireless</title>
     </head>
     <body>
         <div id='map'>
@@ -52,7 +52,7 @@ map.on('load', () => {
     map.addLayer({
         id: 'lyr_PublicSpaces_0_0',
         type: 'circle',
-        source: 'PublicSpaces_0',
+        source: 'https://github.com/fmvaldezg/PCWmap/blob/main/data/PublicSpaces_0.js',
         layout: {},
         paint: {'circle-radius': ['/', 7.142857142857142, 2], 'circle-color': '#d5b43c', 'circle-opacity': 1.0, 'circle-stroke-width': 1, 'circle-stroke-color': '#232323'}
     })
