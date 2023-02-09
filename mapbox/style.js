@@ -40,14 +40,14 @@ var styleJSON = {
     "sprite": "",
     "glyphs": "https://glfonts.lukasmartinelli.ch/fonts/{fontstack}/{range}.pbf",
     "layers": [
-        {
-            "id": "background",
-            "type": "background",
-            "layout": {},
-            "paint": {
-                "background-color": "#ffffff"
-            }
-        },
+        //{
+            //"id": "background",
+            //"type": "background",
+            //"layout": {},
+            //"paint": {
+                //"background-color": "#ffffff"
+            //}
+        //},
         {
             "id": "lyr_PublicSpaces_0_0",
             "type": "circle",
