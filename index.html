@@ -35,20 +35,14 @@
     // Code from the next step will go here.
     map.on('load', () => {
       map.addSource('high_sites_prosp', {
-        type: 'geojson',
-        data: 'https://github.com/fmvaldezg/PCWmap/blob/main/data/high_sites_prosp.geojson',
+        'type': 'geojson',
+        'data': 'https://github.com/fmvaldezg/PCWmap/blob/main/data/high_sites_prosp.geojson',
       })
 
       map.addLayer ({
         'id': 'high_sites_prosp-layer',
-        'type': 'circle',
+        'type': '',
         'source': 'high_sites_prosp',
-        'paint': {
-          'circle-radius': 1,
-          'circle-stroke-width': 2,
-          'circle-color': 'red',
-          'circle-stroke-color': 'white'
-        }
       })
     })
     </script>
