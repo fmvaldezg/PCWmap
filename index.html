@@ -52,14 +52,14 @@
       });
 
     // After the last frame rendered before the map enters an "idle" state.
-map.on('idle', () => {
+//map.on('idle', () => {
 // If these two layers were not added to the map, abort
-if (!map.getLayer('high_sites') || !map.getLayer('rooftop_hubs')) {
-return;
-}
+//if (!map.getLayer('high_sites') || !map.getLayer('rooftop_hubs')) {
+//return;
+//}
  
 // Enumerate ids of the layers.
-const toggleableLayerIds = ['high_sites', 'rooftop_hubs'];
+const toggleableLayerIds = [layer];
  
 // Set up the corresponding toggle button for each layer.
 for (const id of toggleableLayerIds) {
@@ -103,7 +103,7 @@ clickedLayer,
 const layers = document.getElementById('menu');
 layers.appendChild(link);
 }
-});
+//});
     </script>
   </body>
 </html>
