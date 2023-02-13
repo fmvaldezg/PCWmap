@@ -96,13 +96,30 @@
           'circle-color': 'red'
             }
           });
+
+          map.addSource('high_sites_prosp', {
+          type: 'geojson',
+          data: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/high_sites_prosp.geojson'
+          });
+        map.addLayer({
+          'id': 'high_sites_prosp',
+          'source': 'high_sites_prosp',
+          'type': 'circle',
+          'layout': {
+            'visibility':'visible'
+          },
+          'paint': {
+          'circle-radius': 10,
+          'circle-color': 'blue'
+            }
+          });
         //}
       });
 
     // After the last frame rendered before the map enters an "idle" state.
 map.on('idle', () => {
 //If these two layers were not added to the map, abort
-if (!map.getLayer('high_sites') || !map.getLayer('rooftop_hubs')) {
+if (!map.getLayer('high_sites') || !map.getLayer('high_sites_prosp')) {
 return;
 }
  
