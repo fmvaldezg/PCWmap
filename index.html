@@ -50,5 +50,29 @@
           });
         }
       });
+
+      // Add the toggle buttons for each layer
+      for (var i = 0; i < layers.length; i++) {
+          var layer = layers[i];
+          var link = document.createElement('a');
+          link.href = '#';
+          link.className = 'active';
+          link.textContent = layer;
+          link.onclick = function (e) {
+            var clickedLayer = this.textContent;
+            e.preventDefault();
+            e.stopPropagation();
+            var visibility = map.getLayoutProperty(clickedLayer, 'visibility');
+            if (visibility === 'visible') {
+              map.setLayoutProperty(clickedLayer, 'visibility', 'none');
+              this.className = '';
+            } else {
+              this.className = 'active';
+              map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
+}
+};
+var layersControl = document.getElementById('menu');
+layersControl.appendChild(link);
+}
     </script>
   </body>
