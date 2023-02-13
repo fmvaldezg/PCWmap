@@ -64,36 +64,36 @@
         container: 'map',
         style: 'mapbox://styles/mapbox/streets-v11',
         center: [-75.1405, 39.9839],
-        zoom: 12
+        zoom: 12.5
       });
 
-      var layers = [
-        'high_sites',
-        'high_sites_props',
-        'mesh_nodes',
-        'public_spaces',
-        'rooftop_hubs',
-        'rooftop_hubs_prosp'
-      ];
+      //var layers = [
+        //'high_sites',
+        //'high_sites_props',
+        //'mesh_nodes',
+        //'public_spaces',
+        //'rooftop_hubs',
+        //'rooftop_hubs_prosp'
+      //];
 
-      map.on('load', function() {
+      map.on('load', () => {
         // Add the layers to the map
-        for (var i = 0; i < layers.length; i++) {
-          var layer = layers[i];
-          map.addSource(layer, {
-            type: 'geojson',
-            data: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/' + layer + '.geojson'
+        //for (var i = 0; i < layers.length; i++) {
+          //var layer = layers[i];
+        map.addSource('high_sites', {
+          type: 'geojson',
+          data: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/high_sites.geojson'
           });
-          map.addLayer({
-            'id': layer,
-            'source': layer,
-            'type': 'circle',
-            'paint': {
-              'circle-radius': 10,
-              'circle-color': 'red'
+        map.addLayer({
+          'id': 'high_sites',
+          'source': 'high_sites',
+          'type': 'circle',
+          'paint': {
+          'circle-radius': 10,
+          'circle-color': 'red'
             }
           });
-        }
+        //}
       });
 
     // After the last frame rendered before the map enters an "idle" state.
