@@ -97,11 +97,11 @@
       });
 
     // After the last frame rendered before the map enters an "idle" state.
-//map.on('idle', () => {
-// If these two layers were not added to the map, abort
-//if (!map.getLayer('high_sites') || !map.getLayer('rooftop_hubs')) {
-//return;
-//}
+map.on('idle', () => {
+//If these two layers were not added to the map, abort
+if (!map.getLayer('high_sites') || !map.getLayer('rooftop_hubs')) {
+return;
+}
  
 // Enumerate ids of the layers.
 const toggleableLayerIds = ['high_sites', 'high_sites_props', 'mesh_nodes', 'public_spaces', 'rooftop_hubs', 'rooftop_hubs_prosp'];
@@ -148,7 +148,7 @@ clickedLayer,
 const layers = document.getElementById('menu');
 layers.appendChild(link);
 }
-//});
+});
     </script>
   </body>
 </html>
