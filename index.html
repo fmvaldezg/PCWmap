@@ -1,79 +1,242 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset='utf-8' />
-    <title>Add layers from GitHub repository with Mapbox GL JS</title>
-    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
-    <script src='https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.js'></script>
-    <link href='https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css' rel='stylesheet' />
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.12.0/mapbox-gl.css" rel="stylesheet">
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.12.0/mapbox-gl.js"></script>
     <style>
-      body { margin:0; padding:0; }
-      #map { position:absolute; top:0; bottom:0; width:100%; }
-    </style>
+      body { margin: 0; padding: 0; }
+      #map { position: absolute; top: 0; bottom: 0; width: 100%; }
+      </style>
   </head>
   <body>
+    <style>
+      #menu {
+      background: #fff;
+      position: absolute;
+      z-index: 1;
+      top: 10px;
+      right: 10px;
+      border-radius: 3px;
+      width: 120px;
+      border: 1px solid rgba(0, 0, 0, 0.4);
+      font-family: 'Open Sans', sans-serif;
+      }
+       
+      #menu a {
+      font-size: 13px;
+      color: #404040;
+      display: block;
+      margin: 0;
+      padding: 0;
+      padding: 10px;
+      text-decoration: none;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+      text-align: center;
+      }
+       
+      #menu a:last-child {
+      border: none;
+      }
+       
+      #menu a:hover {
+      background-color: #f8f8f8;
+      color: #404040;
+      }
+       
+      #menu a.active {
+      background-color: #3887be;
+      color: #ffffff;
+      }
+       
+      #menu a.active:hover {
+      background: #3074a4;
+      }
+
+    </style>
+
     <div id='map'></div>
+    <nav id="menu"></nav> 
+
     <script>
       mapboxgl.accessToken = 'pk.eyJ1IjoiZm12YWxkZXpnODQiLCJhIjoiY2w5eWJzMzkwMDNiaDNvbGltamV1ajdvNiJ9.esyugI1HyBVPAQcRN551xw';
       var map = new mapboxgl.Map({
         container: 'map',
         style: 'mapbox://styles/mapbox/streets-v11',
-        center: [-74.5, 40],
-        zoom: 9
+        center: [-75.1405, 39.9839],
+        zoom: 12.5
       });
 
-      var layers = [
-        'high_sites',
-        'high_sites_props',
-        'mesh_nodes',
-        'public_spaces',
-        'rooftop_hubs',
-        'rooftop_hubs_prosp'
-      ];
+      //var layers = [
+        //'high_sites',
+        //'high_sites_props',
+        //'mesh_nodes',
+        //'public_spaces',
+        //'rooftop_hubs',
+        //'rooftop_hubs_prosp'
+      //];
 
-      map.on('load', function() {
+      map.on('load', () => {
         // Add the layers to the map
-        for (var i = 0; i < layers.length; i++) {
-          var layer = layers[i];
-          map.addSource(layer, {
-            type: 'geojson',
-            data: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/' + layer + '.geojson'
+        //for (var i = 0; i < layers.length; i++) {
+          //var layer = layers[i];
+        map.addSource('high_sites', {
+          type: 'geojson',
+          data: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/high_sites.geojson'
           });
-          map.addLayer({
-            'id': layer,
-            'source': layer,
-            'type': 'circle',
-            'paint': {
-              'circle-radius': 10,
-              'circle-color': 'red'
+        map.addLayer({
+          'id': 'high_sites',
+          'source': 'high_sites',
+          'type': 'circle',
+          'layout': {
+            'visibility':'visible'
+          },
+          'paint': {
+          'circle-radius': 10,
+          'circle-color': 'red'
             }
           });
-        }
+
+        map.addSource('high_sites_prosp', {
+          type: 'geojson',
+          data: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/high_sites_prosp.geojson'
+          });
+        map.addLayer({
+          'id': 'high_sites_prosp',
+          'source': 'high_sites_prosp',
+          'type': 'circle',
+          'layout': {
+            'visibility':'visible'
+          },
+          'paint': {
+          'circle-radius': 10,
+          'circle-color': 'blue'
+            }
+          });
+
+        map.addSource('mesh_nodes', {
+          type: 'geojson',
+          data: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/mesh_nodes.geojson'
+          });
+        map.addLayer({
+          'id': 'mesh_nodes',
+          'source': 'mesh_nodes',
+          'type': 'circle',
+          'layout': {
+            'visibility':'visible'
+          },
+          'paint': {
+          'circle-radius': 9,
+          'circle-color': 'green'
+            }
+          });
+
+        map.addSource('public_spaces', {
+          type: 'geojson',
+          data: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/public_spaces.geojson'
+          });
+        map.addLayer({
+          'id': 'public_spaces',
+          'source': 'public_spaces',
+          'type': 'circle',
+          'layout': {
+            'visibility':'visible'
+          },
+          'paint': {
+          'circle-radius': 9,
+          'circle-color': 'grey'
+            }
+          });   
+          
+        map.addSource('rooftop_hubs', {
+          type: 'geojson',
+          data: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/rooftop_hubs.geojson'
+          });
+        map.addLayer({
+          'id': 'rooftop_hubs',
+          'source': 'rooftop_hubs',
+          'type': 'circle',
+          'layout': {
+            'visibility':'visible'
+          },
+          'paint': {
+          'circle-radius': 9,
+          'circle-color': 'brown'
+            }
+          });
+          
+        map.addSource('rooftop_hubs_prosp', {
+          type: 'geojson',
+          data: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/rooftop_hubs_prosp.geojson'
+          });
+        map.addLayer({
+          'id': 'rooftop_hubs_prosp',
+          'source': 'rooftop_hubs_prosp',
+          'type': 'circle',
+          'layout': {
+            'visibility':'visible'
+          },
+          'paint': {
+          'circle-radius': 9,
+          'circle-color': 'yellow'
+            }
+          });          
+        //}
       });
 
-      // Add the toggle buttons for each layer
-      for (var i = 0; i < layers.length; i++) {
-          var layer = layers[i];
-          var link = document.createElement('a');
-          link.href = '#';
-          link.className = 'active';
-          link.textContent = layer;
-          link.onclick = function (e) {
-            var clickedLayer = this.textContent;
-            e.preventDefault();
-            e.stopPropagation();
-            var visibility = map.getLayoutProperty(clickedLayer, 'visibility');
-            if (visibility === 'visible') {
-              map.setLayoutProperty(clickedLayer, 'visibility', 'none');
-              this.className = '';
-            } else {
-              this.className = 'active';
-              map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
-                }
-            };
-            var layersControl = document.getElementById('menu');
-            layersControl.appendChild(link);
-        }
+    // After the last frame rendered before the map enters an "idle" state.
+map.on('idle', () => {
+//If these two layers were not added to the map, abort
+if (!map.getLayer('high_sites') || !map.getLayer('high_sites_prosp') || !map.getLayer('mesh_nodes')) {
+return;
+}
+ 
+// Enumerate ids of the layers.
+const toggleableLayerIds = ['high_sites_prosp','high_sites', 'mesh_nodes', 'public_spaces', 'rooftop_hubs', 'rooftop_hubs_prosp'];
+ 
+// Set up the corresponding toggle button for each layer.
+for (const id of toggleableLayerIds) {
+// Skip layers that already have a button set up.
+if (document.getElementById(id)) {
+continue;
+}
+ 
+// Create a link.
+const link = document.createElement('a');
+link.id = id;
+link.href = '#';
+link.textContent = id;
+link.className = 'active';
+ 
+// Show or hide layer when the toggle is clicked.
+link.onclick = function (e) {
+const clickedLayer = this.textContent;
+e.preventDefault();
+e.stopPropagation();
+ 
+const visibility = map.getLayoutProperty(
+clickedLayer,
+'visibility'
+);
+ 
+// Toggle layer visibility by changing the layout object's visibility property.
+if (visibility === 'visible') {
+map.setLayoutProperty(clickedLayer, 'visibility', 'none');
+this.className = '';
+} else {
+this.className = 'active';
+map.setLayoutProperty(
+clickedLayer,
+'visibility',
+'visible'
+);
+}
+};
+ 
+const layers = document.getElementById('menu');
+layers.appendChild(link);
+}
+});
     </script>
   </body>
 </html>
