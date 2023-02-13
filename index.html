@@ -146,6 +146,40 @@
           'circle-radius': 9,
           'circle-color': 'grey'
             }
+          });   
+          
+        map.addSource('rooftop_hubs', {
+          type: 'geojson',
+          data: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/rooftop_hubs.geojson'
+          });
+        map.addLayer({
+          'id': 'rooftop_hubs',
+          'source': 'rooftop_hubs',
+          'type': 'circle',
+          'layout': {
+            'visibility':'visible'
+          },
+          'paint': {
+          'circle-radius': 9,
+          'circle-color': 'brown'
+            }
+          });
+          
+        map.addSource('rooftop_hubs_prosp', {
+          type: 'geojson',
+          data: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/rooftop_hubs_prosp.geojson'
+          });
+        map.addLayer({
+          'id': 'rooftop_hubs_prosp',
+          'source': 'rooftop_hubs_prosp',
+          'type': 'circle',
+          'layout': {
+            'visibility':'visible'
+          },
+          'paint': {
+          'circle-radius': 9,
+          'circle-color': 'yellow'
+            }
           });          
         //}
       });
