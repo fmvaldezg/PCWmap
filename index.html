@@ -37,7 +37,7 @@
           var layer = layers[i];
           map.addSource(layer, {
             type: 'geojson',
-            data: 'https://github.com/fmvaldezg/PCWmap/tree/main/data' + layer + '.geojson'
+            data: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/' + layer + '.geojson'
           });
           map.addLayer({
             'id': layer,
@@ -52,4 +52,3 @@
       });
     </script>
   </body>
-</html>
