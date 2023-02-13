@@ -130,6 +130,23 @@
           'circle-color': 'green'
             }
           });
+
+        map.addSource('public_spaces', {
+          type: 'geojson',
+          data: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/public_spaces.geojson'
+          });
+        map.addLayer({
+          'id': 'public_spaces',
+          'source': 'public_spaces',
+          'type': 'circle',
+          'layout': {
+            'visibility':'visible'
+          },
+          'paint': {
+          'circle-radius': 9,
+          'circle-color': 'grey'
+            }
+          });          
         //}
       });
 
