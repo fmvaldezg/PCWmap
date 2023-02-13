@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset='utf-8' />
-    <title>Turn on and off layers with Mapbox GL JS</title>
+    <title>Add layers from GitHub repository with Mapbox GL JS</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
     <script src='https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.js'></script>
     <link href='https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css' rel='stylesheet' />
@@ -28,8 +28,6 @@
         'layer3'
       ];
 
-      var visibleLayers = [];
-
       map.on('load', function() {
         // Add the layers to the map
         for (var i = 0; i < layers.length; i++) {
@@ -48,25 +46,7 @@
             }
           });
         }
-
-        // Add the toggle buttons for each layer
-        for (var i = 0; i < layers.length; i++) {
-          var layer = layers[i];
-          var link = document.createElement('a');
-          link.href = '#';
-          link.className = 'active';
-          link.textContent = layer;
-          link.onclick = function (e) {
-            var clickedLayer = this.textContent;
-            e.preventDefault();
-            e.stopPropagation();
-            var visibility = map.getLayoutProperty(clickedLayer, 'visibility');
-            if (visibility === 'visible') {
-              map.setLayoutProperty(clickedLayer, 'visibility', 'none');
-              this.className = '';
-            } else {
-              this.className = 'active';
-              map.setLayoutProperty(clickedLayer, '
-    
+      });
     </script>
   </body>
+</html>
