@@ -80,6 +80,10 @@
         // Add the layers to the map
         //for (var i = 0; i < layers.length; i++) {
           //var layer = layers[i];
+        map.loadImage('./icons/public_spaces.png', (error, image) => {
+          if (error) throw error;
+          map.addImage('public_spaces', image, {'sdf':true})
+        })
         map.addSource('high_sites', {
           type: 'geojson',
           data: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/high_sites.geojson'
@@ -138,14 +142,11 @@
         map.addLayer({
           'id': 'Public Spaces',
           'source': 'public_spaces',
-          'type': 'circle',
+          'type': 'symbol',
           'layout': {
-            'visibility':'visible'
-          },
-          'paint': {
-          'circle-radius': 7,
-          'circle-color': 'green'
-            }
+            'icon-image': 'public_spaces',
+            'icon-size': 0.5
+          }
           });   
           
         map.addSource('rooftop_hubs', {
