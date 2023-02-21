@@ -80,7 +80,7 @@
         // Add the layers to the map
         //for (var i = 0; i < layers.length; i++) {
           //var layer = layers[i];
-        map.loadImage('https://raw.githubusercontent.com/fmvaldezg/PCWmap/icons/public_spaces.png', (error, image) => {
+        map.loadImage('icons/public_spaces.png', (error, image) => {
           if (error) throw error;
           map.addImage('public_spaces', image, {'sdf':true})
         })
