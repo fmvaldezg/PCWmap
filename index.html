@@ -102,7 +102,7 @@
           data: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/high_sites_prosp.geojson'
           });
         map.addLayer({
-          'id': 'high_sites_prosp',
+          'id': 'High Sites (Prospective)',
           'source': 'high_sites_prosp',
           'type': 'circle',
           'layout': {
@@ -187,12 +187,12 @@
     // After the last frame rendered before the map enters an "idle" state.
 map.on('idle', () => {
 //If these two layers were not added to the map, abort
-if (!map.getLayer('High Sites') || !map.getLayer('high_sites_prosp') || !map.getLayer('mesh_nodes')) {
+if (!map.getLayer('High Sites') || !map.getLayer('High Sites (Prospective)') || !map.getLayer('mesh_nodes')) {
 return;
 }
  
 // Enumerate ids of the layers.
-const toggleableLayerIds = ['High Sites', 'high_sites_prosp', 'mesh_nodes', 'public_spaces', 'rooftop_hubs', 'rooftop_hubs_prosp'];
+const toggleableLayerIds = ['High Sites', 'High Sites (Prospective)', 'mesh_nodes', 'public_spaces', 'rooftop_hubs', 'rooftop_hubs_prosp'];
  
 // Set up the corresponding toggle button for each layer.
 for (const id of toggleableLayerIds) {
