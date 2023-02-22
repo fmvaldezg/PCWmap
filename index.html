@@ -80,7 +80,7 @@
         // Add the layers to the map
         //for (var i = 0; i < layers.length; i++) {
           //var layer = layers[i];
-        map.loadImage('https://github.com/fmvaldezg/PCWmap/blob/public2/icons/public_spaces.png?raw=true', (error, image) => {
+        map.loadImage('https://docs.mapbox.com/mapbox-gl-js/assets/custom_marker.png', (error, image) => {
           if (error) throw error;
           map.addImage('public_spaces', image);
           map.addSource('public_spaces', {
@@ -95,7 +95,7 @@
           'layout': {
             'visibility':'visible',
             'icon-image': 'public_spaces',
-            'icon-size': 6
+            'icon-size': 1
             }
           }); 
         })
