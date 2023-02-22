@@ -80,10 +80,10 @@
         // Add the layers to the map
         //for (var i = 0; i < layers.length; i++) {
           //var layer = layers[i];
-        map.loadImage('icons/public_spaces.png', (error, image) => {
-          if (error) throw error;
-          map.addImage('public_spaces', image, {'sdf':true})
-        })
+        //map.loadImage('icons/public_spaces.png', (error, image) => {
+          //if (error) throw error;
+          //map.addImage('public_spaces', image, {'sdf':true})
+        //})
         map.addSource('high_sites', {
           type: 'geojson',
           data: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/high_sites.geojson'
