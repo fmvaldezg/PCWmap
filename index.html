@@ -83,6 +83,19 @@
         map.loadImage('icons/public_spaces.png', (error, image) => {
           if (error) throw error;
           map.addImage('public_spaces', image, {'sdf':true})
+          map.addSource('public_spaces', {
+          type: 'geojson',
+          data: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/public_spaces.geojson'
+          });
+        map.addLayer({
+          'id': 'Public Spaces',
+          'source': 'public_spaces',
+          'type': 'symbol',
+          'layout': {
+            'icon-image': 'public_spaces',
+            'icon-size': 2
+            }
+          }); 
         })
         map.addSource('high_sites', {
           type: 'geojson',
@@ -135,19 +148,19 @@
             }
           });
 
-        map.addSource('public_spaces', {
-          type: 'geojson',
-          data: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/public_spaces.geojson'
-          });
-        map.addLayer({
-          'id': 'Public Spaces',
-          'source': 'public_spaces',
-          'type': 'symbol',
-          'layout': {
-            'icon-image': 'public_spaces',
-            'icon-size': 2
-            }
-          });   
+        //map.addSource('public_spaces', {
+        //  type: 'geojson',
+        //  data: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/public_spaces.geojson'
+        //  });
+        //map.addLayer({
+        //  'id': 'Public Spaces',
+        //  'source': 'public_spaces',
+        //  'type': 'symbol',
+        //  'layout': {
+        //    'icon-image': 'public_spaces',
+        //   'icon-size': 2
+        //    }
+        //  });   
           
         map.addSource('rooftop_hubs', {
           type: 'geojson',
