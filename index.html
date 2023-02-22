@@ -142,11 +142,11 @@
         map.addLayer({
           'id': 'Public Spaces',
           'source': 'public_spaces',
-          'type': 'symbol',
+          'type': 'cyrcle',
           'layout': {
-            'icon-image': 'public_spaces',
-            'icon-size': 2
-          }
+            'circle-radius':5,
+            'circle-color':'green'
+            }
           });   
           
         map.addSource('rooftop_hubs', {
