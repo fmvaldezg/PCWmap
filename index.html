@@ -84,22 +84,18 @@
         //  if (error) throw error;
         //  map.addImage('public_spaces', image);
         map.addSource('public_spaces', {
-        type: 'geojson',
-        data: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/public_spaces.geojson'
-        });
-      
+          type: 'geojson',
+          data: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/public_spaces.geojson'
+          });
         map.addLayer({
-        'id': 'Public Spaces',
-        'source': 'public_spaces',
-        'type': 'cirlce',
-        'layout': {
-          'visibility':'visible',
-        }
-        'paint': {
-          'circle-radius': 4,
-          'circle-color':'green'
-        }
-        }); 
+          'id': 'Public Spaces',
+          'source': 'public_spaces',
+          'type': 'symbol',
+          'layout': {
+            'icon-image': 'public_spaces',
+           'icon-size': 2
+            }
+          });
       })
 
         //map.addSource('high_sites', {
