@@ -80,9 +80,9 @@
         // Add the layers to the map
         //for (var i = 0; i < layers.length; i++) {
           //var layer = layers[i];
-        map.loadImage('https://github.com/fmvaldezg/PCWmap/blob/73147f57e549de39fd2d27ca9b974c3e674c41fd/icons/public_spaces.png', (error, image) => {
-          if (error) throw error;
-          map.addImage('public_spaces', image);
+        //map.loadImage('https://github.com/fmvaldezg/PCWmap/blob/73147f57e549de39fd2d27ca9b974c3e674c41fd/icons/public_spaces.png', (error, image) => {
+        //  if (error) throw error;
+        //  map.addImage('public_spaces', image);
           map.addSource('public_spaces', {
           type: 'geojson',
           data: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/public_spaces.geojson'
