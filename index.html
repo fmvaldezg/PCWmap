@@ -82,7 +82,7 @@
           //var layer = layers[i];
         map.loadImage('icons/public_spaces.png', (error, image) => {
           if (error) throw error;
-          map.addImage('public_spaces', image, {'sdf':true});
+          map.addImage('public_spaces', image);
           map.addSource('public_spaces', {
           type: 'geojson',
           data: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/public_spaces.geojson'
