@@ -97,56 +97,57 @@
             }
           }); 
         })
-        map.addSource('high_sites', {
-          type: 'geojson',
-          data: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/high_sites.geojson'
-          });
-        map.addLayer({
-          'id': 'High Sites',
-          'source': 'high_sites',
-          'type': 'circle',
-          'layout': {
-            'visibility':'visible'
-          },
-          'paint': {
-          'circle-radius': 6,
-          'circle-color': 'blue'
-            }
-          });
 
-        map.addSource('high_sites_prosp', {
-          type: 'geojson',
-          data: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/high_sites_prosp.geojson'
-          });
-        map.addLayer({
-          'id': 'High Sites (Prospective)',
-          'source': 'high_sites_prosp',
-          'type': 'circle',
-          'layout': {
-            'visibility':'visible'
-          },
-          'paint': {
-          'circle-radius': 8,
-          'circle-color': 'blue'
-            }
-          });
+        //map.addSource('high_sites', {
+        //  type: 'geojson',
+        //  data: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/high_sites.geojson'
+        //  });
+        //map.addLayer({
+        //  'id': 'High Sites',
+        //  'source': 'high_sites',
+        //  'type': 'circle',
+        //  'layout': {
+        //    'visibility':'visible'
+        //  },
+        //  'paint': {
+        //  'circle-radius': 6,
+        //  'circle-color': 'blue'
+        //    }
+        //  });
 
-        map.addSource('mesh_nodes', {
-          type: 'geojson',
-          data: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/mesh_nodes.geojson'
-          });
-        map.addLayer({
-          'id': 'Mesh Nodes',
-          'source': 'mesh_nodes',
-          'type': 'circle',
-          'layout': {
-            'visibility':'visible'
-          },
-          'paint': {
-          'circle-radius': 5,
-          'circle-color': 'brown'
-            }
-          });
+        //map.addSource('high_sites_prosp', {
+        //  type: 'geojson',
+        //  data: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/high_sites_prosp.geojson'
+        //  });
+        //map.addLayer({
+        //  'id': 'High Sites (Prospective)',
+        //  'source': 'high_sites_prosp',
+        //  'type': 'circle',
+        //  'layout': {
+        //    'visibility':'visible'
+        //  },
+        //  'paint': {
+        //  'circle-radius': 8,
+        //  'circle-color': 'blue'
+        //    }
+        //  });
+
+        //map.addSource('mesh_nodes', {
+        //  type: 'geojson',
+        //  data: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/mesh_nodes.geojson'
+        //  });
+        //map.addLayer({
+        //  'id': 'Mesh Nodes',
+        //  'source': 'mesh_nodes',
+        // 'type': 'circle',
+        //  'layout': {
+        //    'visibility':'visible'
+        //  },
+        //  'paint': {
+        //  'circle-radius': 5,
+        //  'circle-color': 'brown'
+        //    }
+        //  });
 
         //map.addSource('public_spaces', {
         //  type: 'geojson',
@@ -162,39 +163,39 @@
         //    }
         //  });   
           
-        map.addSource('rooftop_hubs', {
-          type: 'geojson',
-          data: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/rooftop_hubs.geojson'
-          });
-        map.addLayer({
-          'id': 'Rooftop Hubs',
-          'source': 'rooftop_hubs',
-          'type': 'circle',
-          'layout': {
-            'visibility':'visible'
-          },
-          'paint': {
-          'circle-radius': 4,
-          'circle-color': 'orange'
-            }
-          });
+        //map.addSource('rooftop_hubs', {
+        //  type: 'geojson',
+        //  data: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/rooftop_hubs.geojson'
+        //  });
+        //map.addLayer({
+        //  'id': 'Rooftop Hubs',
+        // 'source': 'rooftop_hubs',
+        //  'type': 'circle',
+        //  'layout': {
+        //    'visibility':'visible'
+        //  },
+        //  'paint': {
+        //  'circle-radius': 4,
+        //  'circle-color': 'orange'
+        //    }
+        //  });
           
-        map.addSource('rooftop_hubs_prosp', {
-          type: 'geojson',
-          data: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/rooftop_hubs_prosp.geojson'
-          });
-        map.addLayer({
-          'id': 'Rooftop Hubs (Prospective)',
-          'source': 'rooftop_hubs_prosp',
-          'type': 'circle',
-          'layout': {
-            'visibility':'visible'
-          },
-          'paint': {
-          'circle-radius': 6,
-          'circle-color': 'yellow'
-            }
-          });          
+        //map.addSource('rooftop_hubs_prosp', {
+        //  type: 'geojson',
+        //  data: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/rooftop_hubs_prosp.geojson'
+        //  });
+        //map.addLayer({
+        //  'id': 'Rooftop Hubs (Prospective)',
+        //  'source': 'rooftop_hubs_prosp',
+        //  'type': 'circle',
+        //  'layout': {
+        //    'visibility':'visible'
+        //  },
+        //  'paint': {
+        //  'circle-radius': 6,
+        //  'circle-color': 'yellow'
+        //    }
+        //  });          
         //}
 
       });
@@ -202,7 +203,7 @@
     // After the last frame rendered before the map enters an "idle" state.
 map.on('idle', () => {
 //If these two layers were not added to the map, abort
-if (!map.getLayer('High Sites') || !map.getLayer('High Sites (Prospective)') || !map.getLayer('Mesh Nodes')) {
+if (!map.getLayer('Publioc Spaces') ) {//| !map.getLayer('High Sites (Prospective)') || !map.getLayer('Mesh Nodes')
 return;
 }
  
