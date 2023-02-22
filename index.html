@@ -80,14 +80,15 @@
         // Add the layers to the map
         //for (var i = 0; i < layers.length; i++) {
           //var layer = layers[i];
-        map.loadImage('icons/public_spaces.png', (error, image) => {
+        map.loadImage('https://github.com/fmvaldezg/PCWmap/blob/public2/icons/public_spaces.png?raw=true', (error, image) => {
           if (error) throw error;
           map.addImage('public_spaces', image);
           map.addSource('public_spaces', {
           type: 'geojson',
           data: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/public_spaces.geojson'
           });
-        map.addLayer({
+        
+          map.addLayer({
           'id': 'Public Spaces',
           'source': 'public_spaces',
           'type': 'symbol',
