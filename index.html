@@ -80,20 +80,24 @@
         // Add the layers to the map
         //for (var i = 0; i < layers.length; i++) {
           //var layer = layers[i];
+        map.loadImage('icons/public_spaces.png', (error, image) => {
+          if (error) throw error;
+          map.addImage('public_spaces', image, {'sdf':true})
+        })
         map.addSource('high_sites', {
           type: 'geojson',
           data: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/high_sites.geojson'
           });
         map.addLayer({
-          'id': 'high_sites',
+          'id': 'High Sites',
           'source': 'high_sites',
           'type': 'circle',
           'layout': {
             'visibility':'visible'
           },
           'paint': {
-          'circle-radius': 10,
-          'circle-color': 'red'
+          'circle-radius': 6,
+          'circle-color': 'blue'
             }
           });
 
@@ -102,14 +106,14 @@
           data: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/high_sites_prosp.geojson'
           });
         map.addLayer({
-          'id': 'high_sites_prosp',
+          'id': 'High Sites (Prospective)',
           'source': 'high_sites_prosp',
           'type': 'circle',
           'layout': {
             'visibility':'visible'
           },
           'paint': {
-          'circle-radius': 10,
+          'circle-radius': 8,
           'circle-color': 'blue'
             }
           });
@@ -119,15 +123,15 @@
           data: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/mesh_nodes.geojson'
           });
         map.addLayer({
-          'id': 'mesh_nodes',
+          'id': 'Mesh Nodes',
           'source': 'mesh_nodes',
           'type': 'circle',
           'layout': {
             'visibility':'visible'
           },
           'paint': {
-          'circle-radius': 9,
-          'circle-color': 'green'
+          'circle-radius': 5,
+          'circle-color': 'brown'
             }
           });
 
@@ -136,16 +140,13 @@
           data: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/public_spaces.geojson'
           });
         map.addLayer({
-          'id': 'public_spaces',
+          'id': 'Public Spaces',
           'source': 'public_spaces',
-          'type': 'circle',
+          'type': 'symbol',
           'layout': {
-            'visibility':'visible'
-          },
-          'paint': {
-          'circle-radius': 9,
-          'circle-color': 'grey'
-            }
+            'icon-image': 'public_spaces',
+            'icon-size': 2
+          }
           });   
           
         map.addSource('rooftop_hubs', {
@@ -153,15 +154,15 @@
           data: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/rooftop_hubs.geojson'
           });
         map.addLayer({
-          'id': 'rooftop_hubs',
+          'id': 'Rooftop Hubs',
           'source': 'rooftop_hubs',
           'type': 'circle',
           'layout': {
             'visibility':'visible'
           },
           'paint': {
-          'circle-radius': 9,
-          'circle-color': 'brown'
+          'circle-radius': 4,
+          'circle-color': 'orange'
             }
           });
           
@@ -170,29 +171,30 @@
           data: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/rooftop_hubs_prosp.geojson'
           });
         map.addLayer({
-          'id': 'rooftop_hubs_prosp',
+          'id': 'Rooftop Hubs (Prospective)',
           'source': 'rooftop_hubs_prosp',
           'type': 'circle',
           'layout': {
             'visibility':'visible'
           },
           'paint': {
-          'circle-radius': 9,
+          'circle-radius': 6,
           'circle-color': 'yellow'
             }
           });          
         //}
+
       });
 
     // After the last frame rendered before the map enters an "idle" state.
 map.on('idle', () => {
 //If these two layers were not added to the map, abort
-if (!map.getLayer('high_sites') || !map.getLayer('high_sites_prosp') || !map.getLayer('mesh_nodes')) {
+if (!map.getLayer('High Sites') || !map.getLayer('High Sites (Prospective)') || !map.getLayer('Mesh Nodes')) {
 return;
 }
  
 // Enumerate ids of the layers.
-const toggleableLayerIds = ['high_sites_prosp','high_sites', 'mesh_nodes', 'public_spaces', 'rooftop_hubs', 'rooftop_hubs_prosp'];
+const toggleableLayerIds = ['High Sites', 'Mesh Nodes', 'Rooftop Hubs', 'High Sites (Prospective)', 'Rooftop Hubs (Prospective)', 'Public Spaces'];
  
 // Set up the corresponding toggle button for each layer.
 for (const id of toggleableLayerIds) {
