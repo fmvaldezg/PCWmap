@@ -90,10 +90,13 @@
         map.addLayer({
           'id': 'Public Spaces',
           'source': 'public_spaces',
-          'type': 'symbol',
+          'type': 'circle',
           'layout': {
-            'icon-image': 'public_spaces',
-           'icon-size': 2
+            'visibility':'visible'
+          },
+          'paint': {
+          'circle-radius': 6,
+          'circle-color': 'blue'
             }
           });
       })
