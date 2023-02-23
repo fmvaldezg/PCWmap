@@ -57,7 +57,6 @@
     </style>
 
     <div id='map'></div>
-    <nav id="menu"></nav> 
 
     <script>
       mapboxgl.accessToken = 'pk.eyJ1IjoiZm12YWxkZXpnODQiLCJhIjoiY2w5eWJzMzkwMDNiaDNvbGltamV1ajdvNiJ9.esyugI1HyBVPAQcRN551xw';
@@ -68,19 +67,10 @@
         zoom: 12.5
       });
 
-      //var layers = [
-        //'high_sites',
-        //'high_sites_props',
-        //'mesh_nodes',
-        //'public_spaces',
-        //'rooftop_hubs',
-        //'rooftop_hubs_prosp'
-      //];
+
 
       map.on('load', () => {
-        // Add the layers to the map
-        //for (var i = 0; i < layers.length; i++) {
-          //var layer = layers[i];
+
         map.addImage('custom-icon', 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/6e918e6f2c715cce3d51db982a0ca74fc42d7bec/icons/attraction.svg');
         map.addLayer({
           id: 'public_spaces',
@@ -91,162 +81,7 @@
             'icon-size': 1
           }
         });
-        //map.addSource('high_sites', {
-        //  type: 'geojson',
-        //  data: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/high_sites.geojson'
-        //  });
-        //map.addLayer({
-        //  'id': 'High Sites',
-        //  'source': 'high_sites',
-        //  'type': 'circle',
-        //  'layout': {
-        //    'visibility':'visible'
-        //  },
-        //  'paint': {
-        //  'circle-radius': 6,
-        //  'circle-color': 'blue'
-        //    }
-        //  });
-
-        //map.addSource('high_sites_prosp', {
-        //  type: 'geojson',
-        //  data: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/high_sites_prosp.geojson'
-        //  });
-        //map.addLayer({
-        //  'id': 'High Sites (Prospective)',
-        //  'source': 'high_sites_prosp',
-        //  'type': 'circle',
-        //  'layout': {
-        //    'visibility':'visible'
-        //  },
-        //  'paint': {
-        //  'circle-radius': 8,
-        //  'circle-color': 'blue'
-        //    }
-        //  });
-
-        //map.addSource('mesh_nodes', {
-        //  type: 'geojson',
-        //  data: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/mesh_nodes.geojson'
-        //  });
-        //map.addLayer({
-        //  'id': 'Mesh Nodes',
-        //  'source': 'mesh_nodes',
-        // 'type': 'circle',
-        //  'layout': {
-        //    'visibility':'visible'
-        //  },
-        //  'paint': {
-        //  'circle-radius': 5,
-        //  'circle-color': 'brown'
-        //    }
-        //  });
-
-        //map.addSource('public_spaces', {
-        //  type: 'geojson',
-        //  data: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/public_spaces.geojson'
-        //  });
-        //map.addLayer({
-        //  'id': 'Public Spaces',
-        //  'source': 'public_spaces',
-        //  'type': 'symbol',
-        //  'layout': {
-        //    'icon-image': 'public_spaces',
-        //   'icon-size': 2
-        //    }
-        //  });   
-          
-        //map.addSource('rooftop_hubs', {
-        //  type: 'geojson',
-        //  data: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/rooftop_hubs.geojson'
-        //  });
-        //map.addLayer({
-        //  'id': 'Rooftop Hubs',
-        // 'source': 'rooftop_hubs',
-        //  'type': 'circle',
-        //  'layout': {
-        //    'visibility':'visible'
-        //  },
-        //  'paint': {
-        //  'circle-radius': 4,
-        //  'circle-color': 'orange'
-        //    }
-        //  });
-          
-        //map.addSource('rooftop_hubs_prosp', {
-        //  type: 'geojson',
-        //  data: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/rooftop_hubs_prosp.geojson'
-        //  });
-        //map.addLayer({
-        //  'id': 'Rooftop Hubs (Prospective)',
-        //  'source': 'rooftop_hubs_prosp',
-        //  'type': 'circle',
-        //  'layout': {
-        //    'visibility':'visible'
-        //  },
-        //  'paint': {
-        //  'circle-radius': 6,
-        //  'circle-color': 'yellow'
-        //    }
-        //  });          
-        //}
-
-      //});
-
-    // After the last frame rendered before the map enters an "idle" state.
-map.on('idle', () => {
-//If these two layers were not added to the map, abort
-if (!map.getLayer('Public Spaces') ) {
-//| !map.getLayer('High Sites (Prospective)') || !map.getLayer('Mesh Nodes')
-return;
-}
- 
-// Enumerate ids of the layers.
-const toggleableLayerIds = ['High Sites', 'Mesh Nodes', 'Rooftop Hubs', 'High Sites (Prospective)', 'Rooftop Hubs (Prospective)', 'Public Spaces'];
- 
-// Set up the corresponding toggle button for each layer.
-for (const id of toggleableLayerIds) {
-// Skip layers that already have a button set up.
-if (document.getElementById(id)) {
-continue;
-}
- 
-// Create a link.
-const link = document.createElement('a');
-link.id = id;
-link.href = '#';
-link.textContent = id;
-link.className = 'active';
- 
-// Show or hide layer when the toggle is clicked.
-link.onclick = function (e) {
-const clickedLayer = this.textContent;
-e.preventDefault();
-e.stopPropagation();
- 
-const visibility = map.getLayoutProperty(
-clickedLayer,
-'visibility'
-);
- 
-// Toggle layer visibility by changing the layout object's visibility property.
-if (visibility === 'visible') {
-map.setLayoutProperty(clickedLayer, 'visibility', 'none');
-this.className = '';
-} else {
-this.className = 'active';
-map.setLayoutProperty(
-clickedLayer,
-'visibility',
-'visible'
-);
-}
-};
- 
-const layers = document.getElementById('menu');
-layers.appendChild(link);
-}
-});
+      })
     </script>
   </body>
 </html>
