@@ -84,24 +84,24 @@
         map.loadImage('https://www.flaticon.com/free-icon/pin_3177361', (error, image) => {
           if (error) throw error;
           map.addImage('public_spaces', image);
-        map.addSource('public_spaces', {
-          type: 'geojson',
-          data: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/public_spaces.geojson'
-          });
-        map.addLayer({
-          'id': 'Public Spaces',
-          'source': 'public_spaces',
-          'type': 'circle',
-          'layout': {
-            'visibility':'visible'
-          },
-          'paint': {
-          'circle-radius': 6,
-          'circle-color': 'blue'
-            }
-          });
+          map.addSource('public_spaces', {
+            type: 'geojson',
+            data: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/public_spaces.geojson'
+            });
+          map.addLayer({
+            'id': 'Public Spaces',
+            'source': 'public_spaces',
+            'type': 'circle',
+            'layout': {
+              'visibility':'visible'
+            },
+            'paint': {
+            'circle-radius': 6,
+            'circle-color': 'blue'
+              }
+            });
+          })
         })
-      }
         //map.addSource('high_sites', {
         //  type: 'geojson',
         //  data: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/high_sites.geojson'
