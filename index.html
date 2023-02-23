@@ -50,26 +50,28 @@ const geojson = {
   type: 'FeatureCollection',
   features: [
     {
-      type: 'Feature',
-      geometry: {
-        type: 'Point',
-        coordinates: [-77.032, 38.913]
-      },
-      properties: {
-        title: 'Mapbox',
-        description: 'Washington, D.C.'
-      }
+      'type': 'Feature', 
+      'properties': { 
+        'qc_id': 0, 
+        'name': 'Gotham Tower', 
+        'description': '2000 N 2nd St'
+       }, 
+      'geometry': {
+        'type': 'Point', 
+        'coordinates': [ [ -75.1373393, 39.9813486 ] ] 
+      } 
     },
     {
-      type: 'Feature',
-      geometry: {
-        type: 'Point',
-        coordinates: [-122.414, 37.776]
-      },
-      properties: {
-        title: 'Mapbox',
-        description: 'San Francisco, California'
-      }
+      'type': 'Feature', 
+      'properties': { 
+        'qc_id': 1, 
+        'name': 'Internet Exchange Point', 
+        'description': '401 N Broad St.' 
+      }, 
+      'geometry': { 
+        'type': 'Point', 
+        'coordinates': [ [ -75.1617111, 39.9599187] ] 
+      } 
     }
   ]
 };
