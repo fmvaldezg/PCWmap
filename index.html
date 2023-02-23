@@ -83,7 +83,7 @@
           //var layer = layers[i];
         map.loadImage('https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/icons/public_spaces.png', (error, image) => {
           if (error) throw error;
-          map.addImage('public_spaces', image);
+          map.addImage('public_spaces_img', image);
           map.addSource('public_spaces', {
             type: 'geojson',
             data: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/public_spaces.geojson'
@@ -91,14 +91,12 @@
           map.addLayer({
             'id': 'Public Spaces',
             'source': 'public_spaces',
-            'type': 'circle',
+            'type': 'symbol',
             'layout': {
-              'visibility':'visible'
+              'visibility':'visible',
+              'icon-image': 'public_spaces_img',
+              'icon_size': 1
             },
-            'paint': {
-            'circle-radius': 6,
-            'circle-color': 'blue'
-              }
             });
           })
         })
