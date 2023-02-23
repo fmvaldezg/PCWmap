@@ -81,7 +81,7 @@
         // Add the layers to the map
         //for (var i = 0; i < layers.length; i++) {
           //var layer = layers[i];
-        map.loadImage('https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/icons/public_spaces.png', (error, image) => {
+        map.loadImage('https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/icons/attraction.svg', (error, image) => {
           if (error) throw error;
           map.addImage('public_spaces_img', image);
           map.addSource('public_spaces', {
@@ -205,7 +205,8 @@
     // After the last frame rendered before the map enters an "idle" state.
 map.on('idle', () => {
 //If these two layers were not added to the map, abort
-if (!map.getLayer('Public Spaces') ) {//| !map.getLayer('High Sites (Prospective)') || !map.getLayer('Mesh Nodes')
+if (!map.getLayer('Public Spaces') ) {
+//| !map.getLayer('High Sites (Prospective)') || !map.getLayer('Mesh Nodes')
 return;
 }
  
