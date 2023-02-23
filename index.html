@@ -81,25 +81,16 @@
         // Add the layers to the map
         //for (var i = 0; i < layers.length; i++) {
           //var layer = layers[i];
-        map.loadImage('https://raw.githubusercontent.com/fmvaldezg/PCWmap/6e918e6f2c715cce3d51db982a0ca74fc42d7bec/icons/attraction.svg', (error, image) => {
-          if (error) throw error;
-          map.addImage('public_spaces_img', 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/6e918e6f2c715cce3d51db982a0ca74fc42d7bec/icons/attraction.svg');
-          map.addSource('public_spaces', {
-            type: 'geojson',
-            data: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/public_spaces.geojson'
-            });
-          map.addLayer({
-            'id': 'Public Spaces',
-            'source': 'public_spaces',
-            'type': 'symbol',
-            'layout': {
-              'visibility':'visible',
-              'icon-image': 'public_spaces_img',
-              'icon_size': 1
-            },
-            });
-          });
-        })
+        map.addImage('custom-icon', 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/6e918e6f2c715cce3d51db982a0ca74fc42d7bec/icons/attraction.svg');
+        map.addLayer({
+          id: 'public_spaces',
+          type: 'symbol',
+          source: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/public_spaces.geojson',
+          layout: {
+            'icon-image': 'custom-icon',
+            'icon-size': 1
+          }
+        });
         //map.addSource('high_sites', {
         //  type: 'geojson',
         //  data: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/high_sites.geojson'
