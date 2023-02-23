@@ -23,7 +23,7 @@
       });
       
       map.on('load', () => {
-        map.loadImage('https://github.com/fmvaldezg/PCWmap/blob/8454c9b2b4f74d9517fc67795a4a0fab7dadd746/icons/Artboard%201.png', (error, image) =>{
+        map.loadImage('https://raw.githubusercontent.com/fmvaldezg/PCWmap/6e918e6f2c715cce3d51db982a0ca74fc42d7bec/icons/attraction.svg', (error, image) =>{
           if (error) throw error;
 
           map.addImage('cat', image);
@@ -51,31 +51,6 @@
         }
         );
       });
-
-
-
-
-
-
-      map.on('load', () => {
-        map.loadImage('https://raw.githubusercontent.com/fmvaldezg/PCWmap/6e918e6f2c715cce3d51db982a0ca74fc42d7bec/icons/attraction.svg', function(error, image) {
-          if (error) throw error;
-          map.addImage('custom-icon', image);
-          map.addLayer({
-            id: 'public_spaces',
-            type: 'symbol',
-            source: {
-              type: 'geojson',
-              data: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/public_spaces.geojson'
-            },
-            layout: {
-              'icon-image': 'custom-icon',
-              'icon-size': 0.5
-            }
-          });
-        });
-      });
-
 
 
     </script>
