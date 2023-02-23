@@ -11,9 +11,6 @@
       </style>
   </head>
   <body>
-    <style>
-    </style>
-
     <div id='map'></div>
 
     <script>
@@ -24,6 +21,41 @@
         center: [-75.1405, 39.9839],
         zoom: 12.5
       });
+      
+      map.on('load', () => {
+        map.loadImage('https://docs.mapbox.com/mapbox-gl-js/assets/cat.png', (error, image) =>{
+          if (error) throw error;
+
+          map.addImage('cat', image);
+
+          map.addSource('point', {
+            'type': 'geojson',
+            'data': {
+              'type': 'Feature',
+              'geometry':{
+                'type': 'Point',
+                'coordinates': [-75.1405, 39.9839]
+              }
+            }
+          });
+
+          map.addLayer({
+            'id': 'points',
+            'type': 'symbol',
+            'source': 'point',
+            'layout': {
+              'icon-image':'cat',
+              'icon-size': 0.25
+            }
+          });
+        }
+        );
+      });
+
+
+
+
+
 
       map.on('load', () => {
         map.loadImage('https://raw.githubusercontent.com/fmvaldezg/PCWmap/6e918e6f2c715cce3d51db982a0ca74fc42d7bec/icons/attraction.svg', function(error, image) {
