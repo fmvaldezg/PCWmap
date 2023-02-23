@@ -32,10 +32,14 @@
         map.loadImage('https://raw.githubusercontent.com/fmvaldezg/PCWmap/6e918e6f2c715cce3d51db982a0ca74fc42d7bec/icons/attraction.svg', function(error, image){
           if (error) throw error;
           map.addImage('custom-icon', image);
+          map.addSource('public_spaces', {
+            type:'geojson',
+            data: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/public_spaces.geojson'
+          });
           map.addLayer({
             id: 'public_spaces',
             type: 'symbol',
-            source: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/public_spaces.geojson',
+            source: 'public_spaces',
             layout: {
               'icon-image': 'custom-icon',
               'icon-size': 5
