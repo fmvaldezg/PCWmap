@@ -71,16 +71,19 @@
 
       map.on('load', () => {
 
-        map.addImage('custom-icon', 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/6e918e6f2c715cce3d51db982a0ca74fc42d7bec/icons/attraction.svg');
-        map.addLayer({
-          id: 'public_spaces',
-          type: 'symbol',
-          source: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/public_spaces.geojson',
-          layout: {
-            'icon-image': 'custom-icon',
-            'icon-size': 1
-          }
-        });
+        map.loadImage('https://raw.githubusercontent.com/fmvaldezg/PCWmap/6e918e6f2c715cce3d51db982a0ca74fc42d7bec/icons/attraction.svg', function(error, image){
+          if (error) throw error;
+          map.addImage('custom-icon', 'image');
+          map.addLayer({
+            id: 'public_spaces',
+            type: 'symbol',
+            source: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/public_spaces.geojson',
+            layout: {
+              'icon-image': 'custom-icon',
+              'icon-size': 5
+            }
+          });
+        }) 
       })
     </script>
   </body>
