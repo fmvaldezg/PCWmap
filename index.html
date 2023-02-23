@@ -2,7 +2,7 @@
 <html lang='en'>
 <head>
     <meta charset='utf-8' />
-    <title>Add custom markers in Mapbox GL JS</title>
+    <title>Using external GeoJSON and custom icons in Mapbox GL JS</title>
     <meta name='viewport' content='width=device-width, initial-scale=1' />
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.js'></script>
@@ -21,7 +21,7 @@
       }
 
       .marker {
-        background-image: url('mapbox-icon.png');
+        background-image: url('https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/icons/attraction.svg');
         background-size: cover;
         width: 50px;
         height: 50px;
@@ -45,45 +45,29 @@ const map = new mapboxgl.Map({
   zoom: 3
 });
 
-// code from the next step will go here!
-const geojson = {
-  type: 'FeatureCollection',
-  features: [
-    {
-      'type': 'Feature', 
-      'properties': { 
-        'qc_id': 0, 
-        'name': 'Gotham Tower', 
-        'description': '2000 N 2nd St'
-      }, 
-      'geometry': {
-        'type': 'Point', 
-        'coordinates': [ [ -75.1373393, 39.9813486 ] ] 
-      } 
+// Load external GeoJSON file
+map.on('load', function() {
+  map.addSource('my-data', {
+    type: 'geojson',
+    data: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/high_sites.geojson'
+  });
+
+  // Add markers using custom icons
+  map.addLayer({
+    id: 'markers',
+    type: 'symbol',
+    source: 'my-data',
+    layout: {
+      'icon-image': 'marker',
+      'icon-size': 2,
+      'icon-allow-overlap': true
     },
-    {
-      'type': 'Feature', 
-      'properties': { 
-        'qc_id': 1, 
-        'name': 'Internet Exchange Point', 
-        'description': '401 N Broad St.' 
-      }, 
-      'geometry': { 
-        'type': 'Point', 
-        'coordinates': [ [ -75.1617111, 39.9599187] ] 
-      } 
+    paint: {
+      'icon-opacity': 0.75
     }
-  ]
-};
+  });
+});
 
-for (const feature of geojson.features) {
-  // create a HTML element for each feature
-  const el = document.createElement('div');
-  el.className = 'marker';
-
-  // make a marker for each feature and add to the map
-  new mapboxgl.Marker(el).setLngLat(feature.geometry.coordinates).addTo(map);
-}
 </script>
 
 </body>
