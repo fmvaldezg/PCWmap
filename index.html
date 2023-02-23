@@ -1,59 +1,44 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="'utf-8">
-    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
-    <link href="https://api.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.css" rel="stylesheet">
-    <script src="https://api.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.js"></script>
+<html lang='en'>
+<head>
+    <meta charset='utf-8' />
+    <title>Add custom markers in Mapbox GL JS</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1' />
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.css' rel='stylesheet' />
     <style>
-      body { margin: 0; padding: 0; }
-      #map { position: absolute; top: 0; bottom: 0; width: 100%; }
+      body {
+        margin: 0;
+        padding: 0;
+      }
 
-      </style>
-  </head>
-  <body>
-    <div id='map'></div>
+      #map {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 100%;
+      }
+    </style>
+</head>
+<body>
 
-    <script>
-      mapboxgl.accessToken = 'pk.eyJ1IjoiZm12YWxkZXpnODQiLCJhIjoiY2w5eWJzMzkwMDNiaDNvbGltamV1ajdvNiJ9.esyugI1HyBVPAQcRN551xw';
-      var map = new mapboxgl.Map({
-        container: 'map',
-        style: 'mapbox://styles/mapbox/streets-v11',
-        center: [-75.1405, 39.9839],
-        zoom: 12.5
-      });
-      
-      map.on('load', () => {
-        map.loadImage('https://docs.mapbox.com/mapbox-gl-js/assets/custom_marker.png', (error, image) =>{
-          if (error) throw error;
+<div id='map'></div>
 
-          map.addImage('cat', image);
+<script>
 
-          map.addSource('point', {
-            'type': 'geojson',
-            'data': {
-              'type': 'Feature',
-              'geometry':{
-                'type': 'Point',
-                'coordinates': [-75.1405, 39.9839]
-              }
-            }
-          });
+mapboxgl.accessToken = 'pk.eyJ1IjoiZm12YWxkZXpnODQiLCJhIjoiY2w5eWJzMzkwMDNiaDNvbGltamV1ajdvNiJ9.esyugI1HyBVPAQcRN551xw';
 
-          map.addLayer({
-            'id': 'points',
-            'type': 'symbol',
-            'source': 'point',
-            'layout': {
-              'icon-image':'cat',
-              'icon-size': 0.25
-            }
-          });
-        }
-        );
-      });
+const map = new mapboxgl.Map({
+  container: 'map',
+  style: 'mapbox://styles/mapbox/light-v11',
+  center: [-96, 37.8],
+  zoom: 3
+});
 
+// code from the next step will go here!
 
-    </script>
-  </body>
+</script>
+
+</body>
 </html>
