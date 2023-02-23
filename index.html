@@ -1,73 +1,49 @@
 <!DOCTYPE html>
-<html lang='en'>
+<html>
 <head>
-    <meta charset='utf-8' />
-    <title>Using external GeoJSON and custom icons in Mapbox GL JS</title>
-    <meta name='viewport' content='width=device-width, initial-scale=1' />
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
-    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.js'></script>
-    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.css' rel='stylesheet' />
-    <style>
-      body {
-        margin: 0;
-        padding: 0;
-      }
-
-      #map {
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        width: 100%;
-      }
-
-      .marker {
-        background-image: url('https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/icons/attraction.svg');
-        background-size: cover;
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        cursor: pointer;
-      }
-    </style>
+  <meta charset='utf-8' />
+  <title>Mapbox GL JS Default Marker Example</title>
+  <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+  <script src='https://api.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.js'></script>
+  <link href='https://api.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.css' rel='stylesheet' />
+  <style>
+    body { margin: 0; padding: 0; }
+    #map { position: absolute; top: 0; bottom: 0; width: 100%; }
+  </style>
 </head>
 <body>
 
 <div id='map'></div>
 
 <script>
+  mapboxgl.accessToken = 'pk.eyJ1IjoiZm12YWxkZXpnODQiLCJhIjoiY2w5eWJzMzkwMDNiaDNvbGltamV1ajdvNiJ9.esyugI1HyBVPAQcRN551xw';
 
-mapboxgl.accessToken = 'pk.eyJ1IjoiZm12YWxkZXpnODQiLCJhIjoiY2w5eWJzMzkwMDNiaDNvbGltamV1ajdvNiJ9.esyugI1HyBVPAQcRN551xw';
-
-const map = new mapboxgl.Map({
-  container: 'map',
-  style: 'mapbox://styles/mapbox/light-v11',
-  center: [-96, 37.8],
-  zoom: 3
-});
-
-// Load external GeoJSON file
-map.on('load', function() {
-  map.addSource('my-data', {
-    type: 'geojson',
-    data: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/high_sites.geojson'
+  const map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/light-v10',
+    center: [-96, 37.8],
+    zoom: 3
   });
 
-  // Add markers using custom icons
-  map.addLayer({
-    id: 'markers',
-    type: 'symbol',
-    source: 'my-data',
-    layout: {
-      'icon-image': 'marker',
-      'icon-size': 2,
-      'icon-allow-overlap': true
-    },
-    paint: {
-      'icon-opacity': 0.75
-    }
-  });
-});
+  map.on('load', function() {
+    // Add the geojson file as a source
+    map.addSource('my-data', {
+      type: 'geojson',
+      data: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/high_sites.geojson'
+    });
 
+    // Add a layer to display the markers
+    map.addLayer({
+      id: 'markers',
+      type: 'symbol',
+      source: 'my-data',
+      layout: {
+        'icon-image': 'marker-15',
+        'icon-size': 2, // use the default marker image
+        'icon-allow-overlap': true
+      }
+    });
+  });
 </script>
 
 </body>
