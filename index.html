@@ -8,6 +8,7 @@
     <style>
       body { margin: 0; padding: 0; }
       #map { position: absolute; top: 0; bottom: 0; width: 100%; }
+
       </style>
   </head>
   <body>
@@ -23,7 +24,7 @@
       });
       
       map.on('load', () => {
-        map.loadImage('https://raw.githubusercontent.com/fmvaldezg/PCWmap/6e918e6f2c715cce3d51db982a0ca74fc42d7bec/icons/attraction.svg', (error, image) =>{
+        map.loadImage('https://docs.mapbox.com/mapbox-gl-js/assets/custom_marker.png', (error, image) =>{
           if (error) throw error;
 
           map.addImage('cat', image);
