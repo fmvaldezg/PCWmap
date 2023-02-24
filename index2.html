@@ -28,34 +28,52 @@ body { margin: 0; padding: 0; }
     });
 
     map.on('load', () => {
-        // Load an image from an external URL.
-        map.loadImage(
-            'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/icons/icon1.png',
-            (error, image) => {
-                if (error) throw error;
+        // Define an array of image URLs
+        const imageUrls = [
+        'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/icons/icon1.png',
+        'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/icons/icon2.png',
+        'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/icons/icon3.png',
+        ];
 
-                // Add the image to the map style.
-                map.addImage('cat', image);
+        // Define an object to store the loaded images
+        const images = {};
 
-                // Add a data source containing one point feature.
-                map.addSource('point', {
+        // Loop through the image URLs and load each image
+        imageUrls.forEach(url => {
+        map.loadImage(url, (error, image) => {
+            if (error) throw error;
+
+        // Add the loaded image to the images object
+        images[url] = image;
+
+    // Check if all images have been loaded
+        if (Object.keys(images).length === imageUrls.length) {
+        // All images have been loaded, so add them to the map style
+        for (const [name, image] of Object.entries(images)) {
+            map.addImage(name, image);
+        }
+
+      // Add a data source containing point features with different icon images
+                map.addSource('points', {
                     'type': 'geojson',
                     'data': 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/high_sites.geojson'
                 });
 
-                // Add a layer to use the image to represent the data.
+                // Add a layer to use the different images to represent the data.
                 map.addLayer({
                     'id': 'points',
                     'type': 'symbol',
-                    'source': 'point', // reference the data source
+                    'source': 'points',
                     'layout': {
-                        'icon-image': 'cat', // reference the image
-                        'icon-size': 2
+                    'icon-image': ['match', ['get', 'icon'], ...Object.keys(images)],
+                    'icon-size': 2
                     }
                 });
-            }
-        );
-    });
+    }
+  });
+});
+
+});
 </script>
 
 </body>
