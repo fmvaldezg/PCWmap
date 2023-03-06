@@ -30,7 +30,7 @@ body { margin: 0; padding: 0; }
     map.on('load', () => {
         // Define an array of image URLs
         const imageUrls = [
-        'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/icons/icon1.png',
+        'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/icons/high_sites.png',
         'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/icons/icon2.png',
         'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/icons/icon3.png',
         ];
@@ -61,7 +61,7 @@ body { margin: 0; padding: 0; }
 
                 // Add a layer to use the different images to represent the data.
                 map.addLayer({
-                    'id': 'points',
+                    'id': 'high_sites',
                     'type': 'symbol',
                     'source': 'points',
                     'layout': {
