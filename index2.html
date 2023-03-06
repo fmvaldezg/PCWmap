@@ -55,12 +55,12 @@ body { margin: 0; padding: 0; }
       // Add a data source containing point features with different icon images
                 map.addSource('points', {
                     'type': 'geojson',
-                    'data': 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/high_sites.geojson'
+                    'data': 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/high_sites_prosp.geojson'
                 });
 
                 // Add a layer to use the different images to represent the data.
                 map.addLayer({
-                    'id': 'high_sites',
+                    'id': 'high_sites_prosp',
                     'type': 'symbol',
                     'source': 'points',
                     'layout': {
