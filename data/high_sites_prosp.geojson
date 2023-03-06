@@ -3,8 +3,8 @@
 "name": "high_sites_prosp",
 "crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
 "features": [
-{ "type": "Feature", "properties": { "qc_id": 0, "name": "Temple University 1", "description": null }, "geometry": { "type": "MultiPoint", "coordinates": [ [ -75.1569417, 39.9811524, 0.0 ] ] } },
-{ "type": "Feature", "properties": { "qc_id": 1, "name": "Temple University 2", "description": null }, "geometry": { "type": "MultiPoint", "coordinates": [ [ -75.1523636, 40.0067504, 0.0 ] ] } },
-{ "type": "Feature", "properties": { "qc_id": 2, "name": "167 W Allegheny Ave - HACE", "description": null }, "geometry": { "type": "MultiPoint", "coordinates": [ [ -75.1317015, 39.9991374, 0.0 ] ] } }
+{ "type": "Feature", "properties": { "qc_id": 0, "name": "Temple University 1", "description": null, "icon": "high_sites.png" }, "geometry": { "type": "MultiPoint", "coordinates": [ [ -75.1569417, 39.9811524, 0.0 ] ] } },
+{ "type": "Feature", "properties": { "qc_id": 1, "name": "Temple University 2", "description": null, "icon": "high_sites.png" }, "geometry": { "type": "MultiPoint", "coordinates": [ [ -75.1523636, 40.0067504, 0.0 ] ] } },
+{ "type": "Feature", "properties": { "qc_id": 2, "name": "167 W Allegheny Ave - HACE", "description": null, "icon": "high_sites.png" }, "geometry": { "type": "MultiPoint", "coordinates": [ [ -75.1317015, 39.9991374, 0.0 ] ] } }
 ]
 }
