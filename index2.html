@@ -96,7 +96,9 @@
             source: layer.id,
             layout: {
               'icon-image': layer.icon,
-              'icon-size': 0.7
+              'icon-size': ['interpolate', ['linear'], ['zoom'], 0, 0.3, 14, 0.6],
+              'icon-allow-overlap': true,
+              'icon-ignore-placement': true,
             },
             paint: {
               'icon-opacity': 0.8
