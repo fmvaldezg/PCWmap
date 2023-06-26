@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Interactive Map with Mapbox GL JS</title>
+  <title>PhillyCommunity Wireless Network</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://api.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.css" rel="stylesheet">
   <style>
@@ -22,19 +22,25 @@
       display: block;
       margin-bottom: 5px;
     }
+    .layer-icon {
+      width: 20px;
+      height: 20px;
+      display: inline-block;
+      margin-right: 5px;
+    }
   </style>
 </head>
 <body>
   <div id="map"></div>
   <div class="map-overlay">
     <label>
-      <input type="checkbox" id="layer1" checked> Layer 1
+      <input type="checkbox" id="layer1" checked> <img class="layer-icon" src="https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/icons/high_sites.png"> High Sites
     </label>
     <label>
-      <input type="checkbox" id="layer2" checked> Layer 2
+      <input type="checkbox" id="layer2" checked> <img class="layer-icon" src="https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/icons/RooftopHub.png"> Rooftop Hubs
     </label>
     <label>
-      <input type="checkbox" id="layer3" checked> Layer 3
+      <input type="checkbox" id="layer3" checked> <img class="layer-icon" src="https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/icons/icon1.png"> Mesh Nodes
     </label>
   </div>
 
@@ -52,16 +58,25 @@
     // Define an array of GeoJSON layer URLs and their associated icons
     const layers = [
       {
-        url: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/high_sites_prosp.geojson',
-        icon: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/icons/high_sites.png'
+        url: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/high_sites.geojson',
+        icon: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/icons/high_sites.png',
+        id: 'high-sites-layer',
+        name: 'High Sites',
+        popup: '<h3>High Sites</h3><p>{name}</p>'
       },
       {
         url: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/rooftop_hubs.geojson',
-        icon: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/icons/RooftopHub.png'
+        icon: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/icons/RooftopHub.png',
+        id: 'rooftop-hubs-layer',
+        name: 'Rooftop Hubs',
+        popup: '<h3>Rooftop Hubs</h3><p>{name}</p>'
       },
       {
         url: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/mesh_nodes.geojson',
-        icon: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/icons/icon1.png'
+        icon: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/icons/icon1.png',
+        id: 'mesh-nodes-layer',
+        name: 'Mesh Nodes',
+        popup: '<h3>Mesh Nodes</h3><p>{name}</p>'
       }
     ];
 
@@ -71,21 +86,23 @@
         map.loadImage(layer.icon, (error, image) => {
           if (error) throw error;
           map.addImage(layer.icon, image);
-          map.addSource(layer.url, {
+          map.addSource(layer.id, {
             type: 'geojson',
             data: layer.url
           });
           map.addLayer({
-            id: layer.url,
+            id: layer.id,
             type: 'symbol',
-            source: layer.url,
+            source: layer.id,
             layout: {
               'icon-image': layer.icon,
-              'icon-size': 0.5
+              'icon-size': 0.7
             },
             paint: {
-              'icon-opacity': ['case', ['boolean', ['feature-state', 'hover'], false], 1, 0.5]
-            }
+              'icon-opacity': 0.8
+            },
+            sourceLayer: 'default',
+            minzoom: 0
           });
         });
       });
@@ -100,33 +117,66 @@
     // Attach event listeners to layer checkboxes
     const layer1Checkbox = document.getElementById('layer1');
     layer1Checkbox.addEventListener('change', () => {
-      toggleLayer(layers[0].url, layer1Checkbox.checked);
+      toggleLayer(layers[0].id, layer1Checkbox.checked);
     });
 
     const layer2Checkbox = document.getElementById('layer2');
     layer2Checkbox.addEventListener('change', () => {
-      toggleLayer(layers[1].url, layer2Checkbox.checked);
+      toggleLayer(layers[1].id, layer2Checkbox.checked);
     });
 
     const layer3Checkbox = document.getElementById('layer3');
     layer3Checkbox.addEventListener('change', () => {
-      toggleLayer(layers[2].url, layer3Checkbox.checked);
+      toggleLayer(layers[2].id, layer3Checkbox.checked);
     });
 
     // Add popup functionality
     const popup = new mapboxgl.Popup({ closeButton: false, closeOnClick: false });
 
-    map.on('mouseenter', 'high_sites_prosp.geojson', (e) => {
+    map.on('mouseenter', 'high-sites-layer', (e) => {
       map.getCanvas().style.cursor = 'pointer';
       const coordinates = e.features[0].geometry.coordinates.slice();
-      const description = e.features[0].properties.description;
-      popup.setLngLat(coordinates).setHTML(description).addTo(map);
+      const layerIndex = layers.findIndex(layer => layer.url === 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/high_sites.geojson');
+      const nameProperty = e.features[0].properties.name;
+      const popupContent = layers[layerIndex].popup.replace('{name}', nameProperty);
+      popup.setLngLat(coordinates).setHTML(popupContent).addTo(map);
     });
 
-    map.on('mouseleave', 'high_sites_prosp.geojson', () => {
+    map.on('mouseenter', 'mesh-nodes-layer', (e) => {
+      map.getCanvas().style.cursor = 'pointer';
+      const coordinates = e.features[0].geometry.coordinates.slice();
+      const layerIndex = layers.findIndex(layer => layer.url === 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/mesh_nodes.geojson');
+      const nameProperty = e.features[0].properties.name;
+      const popupContent = layers[layerIndex].popup.replace('{name}', nameProperty);
+      popup.setLngLat(coordinates).setHTML(popupContent).addTo(map);
+    });
+
+    map.on('mouseenter', 'rooftop-hubs-layer', (e) => {
+      map.getCanvas().style.cursor = 'pointer';
+      const coordinates = e.features[0].geometry.coordinates.slice();
+      const layerIndex = layers.findIndex(layer => layer.url === 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/rooftop_hubs.geojson');
+      const nameProperty = e.features[0].properties.name;
+      const popupContent = layers[layerIndex].popup.replace('{name}', nameProperty);
+      popup.setLngLat(coordinates).setHTML(popupContent).addTo(map);
+    });
+
+    map.on('mouseleave', 'high-sites-layer', () => {
       map.getCanvas().style.cursor = '';
       popup.remove();
     });
+
+
+    map.on('mouseleave', 'mesh-nodes-layer', () => {
+      map.getCanvas().style.cursor = '';
+      popup.remove();
+    });
+
+
+    map.on('mouseleave', 'rooftop-hubs-layer', () => {
+      map.getCanvas().style.cursor = '';
+      popup.remove();
+    });
+
   </script>
 </body>
 </html>
