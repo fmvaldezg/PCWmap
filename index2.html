@@ -28,6 +28,22 @@
       display: inline-block;
       margin-right: 5px;
     }
+
+    .bookmarks {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background-color: #fff;
+      padding: 10px;
+      border-radius: 4px;
+      font-family: Arial, sans-serif;
+      z-index: 1;
+    }
+
+    .bookmarks button {
+      display: block;
+      margin-bottom: 5px;
+    }
   </style>
 </head>
 <body>
@@ -42,6 +58,11 @@
     <label>
       <input type="checkbox" id="layer3" checked> <img class="layer-icon" src="https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/icons/icon1.png"> Mesh Nodes
     </label>
+  </div>
+  <div class="bookmarks">
+    <button onclick="navigateToBookmark(1)">Bookmark 1</button>
+    <button onclick="navigateToBookmark(2)">Bookmark 2</button>
+    <button onclick="navigateToBookmark(3)">Bookmark 3</button>
   </div>
 
   <script src="https://api.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.js"></script>
@@ -179,6 +200,28 @@
       popup.remove();
     });
 
+  // Function to navigate to a bookmark
+    function navigateToBookmark(bookmark) {
+      let zoom, center;
+      switch (bookmark) {
+        case 1:
+          zoom = 13;
+          center = [-75.1405, 39.9839];
+          break;
+        case 2:
+          zoom = 14;
+          center = [-75.1405, 39.9839];
+          break;
+        case 3:
+          zoom = 15;
+          center = [-75.1405, 39.9839];
+          break;
+        default:
+          zoom = 13;
+          center = [-75.1405, 39.9839];
+      }
+      map.flyTo({ center, zoom });
+    }
   </script>
 </body>
 </html>
