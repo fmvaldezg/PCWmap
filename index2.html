@@ -1,79 +1,132 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="utf-8">
-<title>Add an icon to the map</title>
-<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
-<link href="https://api.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.css" rel="stylesheet">
-<script src="https://api.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.js"></script>
-<style>
-body { margin: 0; padding: 0; }
-#map { position: absolute; top: 0; bottom: 0; width: 100%; }
-</style>
+  <meta charset="utf-8">
+  <title>Interactive Map with Mapbox GL JS</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://api.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.css" rel="stylesheet">
+  <style>
+    body { margin: 0; padding: 0; }
+    #map { position: absolute; top: 0; bottom: 0; width: 100%; }
+    .map-overlay {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background-color: #fff;
+      padding: 10px;
+      border-radius: 4px;
+      font-family: Arial, sans-serif;
+      z-index: 1;
+    }
+    .map-overlay label {
+      display: block;
+      margin-bottom: 5px;
+    }
+  </style>
 </head>
 <body>
-<div id="map"></div>
+  <div id="map"></div>
+  <div class="map-overlay">
+    <label>
+      <input type="checkbox" id="layer1" checked> Layer 1
+    </label>
+    <label>
+      <input type="checkbox" id="layer2" checked> Layer 2
+    </label>
+    <label>
+      <input type="checkbox" id="layer3" checked> Layer 3
+    </label>
+  </div>
 
-<script>
-	// TO MAKE THE MAP APPEAR YOU MUST
-	// ADD YOUR ACCESS TOKEN FROM
-	// https://account.mapbox.com
-	mapboxgl.accessToken = 'pk.eyJ1IjoiZm12YWxkZXpnODQiLCJhIjoiY2w5eWJzMzkwMDNiaDNvbGltamV1ajdvNiJ9.esyugI1HyBVPAQcRN551xw';
+  <script src="https://api.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.js"></script>
+  <script>
+    mapboxgl.accessToken = 'pk.eyJ1IjoiZm12YWxkZXpnODQiLCJhIjoiY2w5eWJzMzkwMDNiaDNvbGltamV1ajdvNiJ9.esyugI1HyBVPAQcRN551xw';
+
     const map = new mapboxgl.Map({
-        container: 'map', // container ID
-        // Choose from Mapbox's core styles, or make your own style with Mapbox Studio
-        style: 'mapbox://styles/mapbox/dark-v11', // style URL
-        zoom: 12, // starting zoom
-        center: [-75.1405, 39.9839] // starting position
+      container: 'map',
+      style: 'mapbox://styles/mapbox/light-v11',
+      zoom: 13,
+      center: [-75.1405, 39.9839]
     });
 
-    map.on('load', () => {
-        // Define an array of image URLs
-        const imageUrls = [
-        'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/icons/high_sites.png',
-        'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/icons/icon1.png',
-        ];
+    // Define an array of GeoJSON layer URLs and their associated icons
+    const layers = [
+      {
+        url: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/high_sites_prosp.geojson',
+        icon: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/icons/high_sites.png'
+      },
+      {
+        url: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/rooftop_hubs.geojson',
+        icon: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/icons/RooftopHub.png'
+      },
+      {
+        url: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/mesh_nodes.geojson',
+        icon: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/icons/icon1.png'
+      }
+    ];
 
-        // Define an object to store the loaded images
-        const images = {};
+    // Add the GeoJSON layers to the map
+    layers.forEach(layer => {
+      map.on('load', () => {
+        map.loadImage(layer.icon, (error, image) => {
+          if (error) throw error;
+          map.addImage(layer.icon, image);
+          map.addSource(layer.url, {
+            type: 'geojson',
+            data: layer.url
+          });
+          map.addLayer({
+            id: layer.url,
+            type: 'symbol',
+            source: layer.url,
+            layout: {
+              'icon-image': layer.icon,
+              'icon-size': 0.5
+            },
+            paint: {
+              'icon-opacity': ['case', ['boolean', ['feature-state', 'hover'], false], 1, 0.5]
+            }
+          });
+        });
+      });
+    });
 
-        // Loop through the image URLs and load each image
-        imageUrls.forEach(url => {
-        map.loadImage(url, (error, image) => {
-            if (error) throw error;
+    // Toggle layer visibility based on checkbox state
+    const toggleLayer = (layerId, checked) => {
+      const visibility = checked ? 'visible' : 'none';
+      map.setLayoutProperty(layerId, 'visibility', visibility);
+    };
 
-        // Add the loaded image to the images object
-        images[url] = image;
+    // Attach event listeners to layer checkboxes
+    const layer1Checkbox = document.getElementById('layer1');
+    layer1Checkbox.addEventListener('change', () => {
+      toggleLayer(layers[0].url, layer1Checkbox.checked);
+    });
 
-    // Check if all images have been loaded
-        if (Object.keys(images).length === imageUrls.length) {
-        // All images have been loaded, so add them to the map style
-        for (const [name, image] of Object.entries(images)) {
-            map.addImage(name, image);
-        }
+    const layer2Checkbox = document.getElementById('layer2');
+    layer2Checkbox.addEventListener('change', () => {
+      toggleLayer(layers[1].url, layer2Checkbox.checked);
+    });
 
-      // Add a data source containing point features with different icon images
-                map.addSource('points', {
-                    'type': 'geojson',
-                    'data': 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/high_sites_prosp.geojson'
-                });
+    const layer3Checkbox = document.getElementById('layer3');
+    layer3Checkbox.addEventListener('change', () => {
+      toggleLayer(layers[2].url, layer3Checkbox.checked);
+    });
 
-                // Add a layer to use the different images to represent the data.
-                map.addLayer({
-                    'id': 'high_sites_prosp',
-                    'type': 'symbol',
-                    'source': 'points',
-                    'layout': {
-                    'icon-image': ['match', ['get', 'icon'], ...Object.keys(images)],
-                    'icon-size': 18
-                    }
-                });
-    }
-  });
-});
+    // Add popup functionality
+    const popup = new mapboxgl.Popup({ closeButton: false, closeOnClick: false });
 
-});
-</script>
+    map.on('mouseenter', 'high_sites_prosp.geojson', (e) => {
+      map.getCanvas().style.cursor = 'pointer';
+      const coordinates = e.features[0].geometry.coordinates.slice();
+      const description = e.features[0].properties.description;
+      popup.setLngLat(coordinates).setHTML(description).addTo(map);
+    });
 
+    map.on('mouseleave', 'high_sites_prosp.geojson', () => {
+      map.getCanvas().style.cursor = '';
+      popup.remove();
+    });
+  </script>
 </body>
 </html>
