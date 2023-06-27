@@ -103,6 +103,13 @@
         id: 'mesh-nodes-layer',
         name: 'Mesh Nodes',
         popup: '<h3>Mesh Nodes</h3><p>{name}</p>'
+      },
+      {
+        url: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/network-points.geojson',
+        icon: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/icons/icon1.png',
+        id: 'mesh-nodes-layer',
+        name: 'Mesh Nodes',
+        popup: '<h3>Mesh Nodes</h3><p>{name}</p>'
       }
     ];
 
@@ -125,9 +132,17 @@
               'icon-size': ['interpolate', ['linear'], ['zoom'], 0, 0.01, 17, 0.7],
               'icon-allow-overlap': true,
               'icon-ignore-placement': true,
+              'text-field': ['get','names'],
+              'text-size': ['interpolate', ['linear'], ['zoom'], 0, 12, 17, 16],
+              'text-anchor': 'left',
+              'text-justify': 'left',
+              'text-offset': [1.2,0],
             },
             paint: {
-              'icon-opacity': 0.9
+              'icon-opacity': 0.9,
+              'text-halo-color': 'rgb(255, 255, 255)',
+              'text-halo-width': 2,
+              'text-halo-blur': 0.5,
             },
             sourceLayer: 'default',
             minzoom: 12,
@@ -261,10 +276,10 @@
       ['linear'],
       ['heatmap-density'],
       0, 'rgba(0, 0, 255, 0)', // adjust the color gradient as needed
-      0.2, 'rgba(0, 255, 0, 1)',
-      0.4, 'rgba(255, 255, 0, 1)',
-      0.6, 'rgba(255, 165, 0, 1)',
-      0.8, 'rgba(255, 0, 0, 1)'
+      0.2, 'rgba(255, 0, 0, 1)',
+      0.4, 'rgba(255, 165, 0, 1)',
+      0.6, 'rgba(255, 255, 0, 1)',
+      0.8, 'rgba(0, 255, 0, 1)'
     ],
     // Heatmap radius
     'heatmap-radius': {
@@ -277,7 +292,7 @@
     'heatmap-opacity': {
         default: 1,
         stops: [
-          [14, 0.7],
+          [14, 0.5],
           [20, 0.2]
         ]
     }
@@ -300,7 +315,7 @@ map.on('load', () => {
   // Load the GeoJSON data for the heatmap from the rooftop hubs and mesh node layers
   // and add it to the heatmap source
   // Make sure to update the URLs for the rooftop hubs and mesh node GeoJSON files
-  fetch('https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/rooftop_hubs.geojson')
+  fetch('https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/network-points.geojson')
     .then(response => response.json())
     .then(data => {
       map.getSource('heatmap-source').setData(data);
