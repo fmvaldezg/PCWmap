@@ -3,15 +3,16 @@
 <head>
   <meta charset="utf-8">
   <title>PhillyCommunity Wireless Network</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link href="https://api.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.css" rel="stylesheet">
+  <link href="https://unpkg.com/maplibre-gl@latest/dist/maplibre-gl.css" rel="stylesheet">
+  <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+
   <style>
     body { margin: 0; padding: 0; }
     #map { position: absolute; top: 0; bottom: 0; width: 100%; }
     .map-overlay {
       position: absolute;
       top: 10px;
-      right: 10px;
+      right: 60px;
       background-color: #ccc3c3;
       padding: 10px;
       border-radius: 4px;
@@ -31,8 +32,8 @@
 
     .bookmarks {
       position: absolute;
-      top: 10px;
-      left: 10px;
+      top: 160px;
+      right: 60px;
       background-color: #b6b0b0;
       padding: 10px;
       border-radius: 4px;
@@ -70,13 +71,14 @@
     <button onclick="navigateToBookmark(3)">Prospective Network</button>
   </div>
 
-  <script src="https://api.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.js"></script>
-  <script>
-    mapboxgl.accessToken = 'pk.eyJ1IjoiZm12YWxkZXpnODQiLCJhIjoiY2w5eWJzMzkwMDNiaDNvbGltamV1ajdvNiJ9.esyugI1HyBVPAQcRN551xw';
+  <script src="https://unpkg.com/maplibre-gl@latest/dist/maplibre-gl.js"></script>
 
-    const map = new mapboxgl.Map({
+  <script>
+    //mapboxgl.accessToken = 'pk.eyJ1IjoiZm12YWxkZXpnODQiLCJhIjoiY2w5eWJzMzkwMDNiaDNvbGltamV1ajdvNiJ9.esyugI1HyBVPAQcRN551xw';
+
+    const map = new maplibregl.Map({
       container: 'map',
-      style: 'mapbox://styles/mapbox/light-v11',
+      style: 'https://api.maptiler.com/maps/dataviz/style.json?key=QcN3B6KW6KDDcOM8oSyQ',
       zoom: 13,
       center: [-75.1405, 39.9839]
     });
@@ -106,10 +108,10 @@
       },
       {
         url: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/network-points.geojson',
-        icon: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/icons/icon1.png',
-        id: 'mesh-nodes-layer',
-        name: 'Mesh Nodes',
-        popup: '<h3>Mesh Nodes</h3><p>{name}</p>'
+        //icon: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/icons/icon1.png',
+        id: 'network-points-layer',
+        name: 'Network Points',
+        popup: '<h3>Network Points</h3><p>{name}</p>'
       }
     ];
 
@@ -188,7 +190,7 @@
 
 
     // Add popup functionality
-    const popup = new mapboxgl.Popup({ closeButton: false, closeOnClick: false });
+    const popup = new maplibregl.Popup({ closeButton: false, closeOnClick: false });
 
     map.on('mouseenter', 'high-sites-layer', (e) => {
       map.getCanvas().style.cursor = 'pointer';
@@ -321,6 +323,8 @@ map.on('load', () => {
       map.getSource('heatmap-source').setData(data);
     });
 });
+
+    map.addControl(new maplibregl.NavigationControl());
   </script>
 </body>
 </html>
