@@ -1,3 +1,4 @@
+<!--This code implements 3D views in the third bookmark-->
 <!DOCTYPE html>
 <html>
 <head>
@@ -65,9 +66,9 @@
   
   <div class="bookmarks">
     <div>Navigate to</div>
-    <button onclick="navigateToBookmark(1)">Norris Square Park</button>
-    <button onclick="navigateToBookmark(2)">Existing Network</button>
-    <button onclick="navigateToBookmark(3)">Prospective Network</button>
+    <button onclick="navigateToBookmark(1, 0, 0)">Norris Square Park</button>
+    <button onclick="navigateToBookmark(2, 0, 90)">Existing Network</button>
+    <button onclick="navigateToBookmark(3, 60, 180)">3D View</button>
   </div>
 
   <script src="https://api.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.js"></script>
@@ -78,7 +79,9 @@
       container: 'map',
       style: 'mapbox://styles/mapbox/light-v11',
       zoom: 13,
-      center: [-75.1405, 39.9839]
+      center: [-75.1405, 39.9839],
+      pitch: 0,
+      bearing: 0,
     });
 
     // Define an array of GeoJSON layer URLs and their associated icons
@@ -233,26 +236,43 @@
     });
 
     // Function to navigate to a bookmark
-    function navigateToBookmark(bookmark) {
-      let zoom, center;
-      switch (bookmark) {
-        case 1:
-          zoom = 16;
-          center = [-75.1358, 39.9825];
-          break;
-        case 2:
-          zoom = 14;
-          center = [-75.1358, 39.9825];
-          break;
-        case 3:
-          zoom = 13;
-          center = [-75.1667418,39.9824];
-          break;
-        default:
-          zoom = 15;
-          center = [-75.1667418,39.9824];
-      }
-      map.flyTo({ center, zoom });
+    function navigateToBookmark(bookmarkId, pitch, bearing) {
+      switch (bookmarkId) {
+          case 1:
+            map.flyTo({
+              center: [-75.1358, 39.9825],
+              zoom: 16,
+              pitch: pitch,
+              bearing: bearing,
+              speed: 0.8,
+              curve: 1.2,
+            });
+            break;
+          case 2:
+            map.flyTo({
+              center: [-75.1400, 39.9825],
+              zoom: 14,
+              pitch: pitch,
+              bearing: bearing,
+              speed: 0.8,
+              curve: 1.2,
+            });
+            break;
+          case 3:
+            map.flyTo({
+              center: [-75.1358, 39.9840],
+              zoom: 17,
+              pitch: pitch,
+              bearing: bearing,
+              speed: 0.8,
+              curve: 1.2,
+            });
+            break;
+          default:
+            break;
+        }
+      
+      //map.flyTo({ center, zoom });
     }
 
   
@@ -299,6 +319,54 @@
   }
 };
 
+map.on('style.load', () => {
+// Insert the layer beneath any symbol layer.
+  const layers = map.getStyle().layers;
+  const labelLayerId = layers.find(
+  (layer) => layer.type === 'symbol' && layer.layout['text-field']
+  ).id;
+  
+  // The 'building' layer in the Mapbox Streets
+  // vector tileset contains building height data
+  // from OpenStreetMap.
+  map.addLayer(
+    {
+    'id': 'add-3d-buildings',
+    'source': 'composite',
+    'source-layer': 'building',
+    'filter': ['==', 'extrude', 'true'],
+    'type': 'fill-extrusion',
+    'minzoom': 15,
+    'paint': {
+      'fill-extrusion-color': '#aaa',
+      
+      // Use an 'interpolate' expression to
+      // add a smooth transition effect to
+      // the buildings as the user zooms in.
+      'fill-extrusion-height': [
+        'interpolate',
+        ['linear'],
+        ['zoom'],
+        15,
+        0,
+        15.05,
+        ['get', 'height']
+      ],
+      'fill-extrusion-base': [
+        'interpolate',
+        ['linear'],
+        ['zoom'],
+        15,
+        0,
+        15.05,
+        ['get', 'min_height']
+      ],
+      'fill-extrusion-opacity': 0.6
+      }
+    },
+  labelLayerId
+  );
+  });
 map.on('load', () => {
   // Add the heatmap source
   map.addSource('heatmap-source', {
