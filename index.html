@@ -1,154 +1,326 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
-    <link href="https://api.mapbox.com/mapbox-gl-js/v2.12.0/mapbox-gl.css" rel="stylesheet">
-    <script src="https://api.mapbox.com/mapbox-gl-js/v2.12.0/mapbox-gl.js"></script>
-    <style>
-      body { margin: 0; padding: 0; }
-      #map { position: absolute; top: 0; bottom: 0; width: 100%; }
-      </style>
-  </head>
-  <body>
-    <style>
-      #menu {
-      background: #fff;
+<head>
+  <meta charset="utf-8">
+  <title>PhillyCommunity Wireless Network</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://api.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.css" rel="stylesheet">
+  <style>
+    body { margin: 0; padding: 0; }
+    #map { position: absolute; top: 0; bottom: 0; width: 100%; }
+    .map-overlay {
       position: absolute;
-      z-index: 1;
       top: 10px;
       right: 10px;
-      border-radius: 3px;
-      width: 120px;
-      border: 1px solid rgba(0, 0, 0, 0.4);
-      font-family: 'Open Sans', sans-serif;
-      }
-       
-      #menu a {
-      font-size: 13px;
-      color: #404040;
-      display: block;
-      margin: 0;
-      padding: 0;
+      background-color: #ccc3c3;
       padding: 10px;
-      text-decoration: none;
-      border-bottom: 1px solid rgba(0, 0, 0, 0.25);
-      text-align: center;
-      }
-       
-      #menu a:last-child {
-      border: none;
-      }
-       
-      #menu a:hover {
-      background-color: #f8f8f8;
-      color: #404040;
-      }
-       
-      #menu a.active {
-      background-color: #3887be;
-      color: #ffffff;
-      }
-       
-      #menu a.active:hover {
-      background: #3074a4;
-      }
+      border-radius: 4px;
+      font-family: Arial, sans-serif;
+      z-index: 1;
+    }
+    .map-overlay label {
+      display: block;
+      margin-bottom: 5px;
+    }
+    .layer-icon {
+      width: 20px;
+      height: 20px;
+      display: inline-block;
+      margin-right: 5px;
+    }
 
-    </style>
+    .bookmarks {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background-color: #b6b0b0;
+      padding: 10px;
+      border-radius: 4px;
+      font-family: Arial, sans-serif;
+      z-index: 1;
+    }
 
-    <div id='map'></div>
-    <nav id="menu"></nav> 
+    .bookmarks button {
+      display: block;
+      margin-bottom: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+  <div class="map-overlay">
+    <label>
+      <input type="checkbox" id="layer1" checked> <img class="layer-icon" src="https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/icons/high_sites.png"> High Sites
+    </label>
+    <label>
+      <input type="checkbox" id="layer2" checked> <img class="layer-icon" src="https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/icons/RooftopHub.png"> Rooftop Hubs
+    </label>
+    <label>
+      <input type="checkbox" id="layer3" checked> <img class="layer-icon" src="https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/icons/icon1.png"> Mesh Nodes
+    </label>
+    <label>
+      <input type="checkbox" id="layer4"checked> Heatmap
+    </label>
+  </div>
+  
+  <div class="bookmarks">
+    <div>Navigate to</div>
+    <button onclick="navigateToBookmark(1)">Norris Square Park</button>
+    <button onclick="navigateToBookmark(2)">Existing Network</button>
+    <button onclick="navigateToBookmark(3)">Prospective Network</button>
+  </div>
 
-    <script>
-      mapboxgl.accessToken = 'pk.eyJ1IjoiZm12YWxkZXpnODQiLCJhIjoiY2w5eWJzMzkwMDNiaDNvbGltamV1ajdvNiJ9.esyugI1HyBVPAQcRN551xw';
-      var map = new mapboxgl.Map({
-        container: 'map',
-        style: 'mapbox://styles/mapbox/streets-v11',
-        center: [-75.1405, 39.9839],
-        zoom: 12
-      });
+  <script src="https://api.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.js"></script>
+  <script>
+    mapboxgl.accessToken = 'pk.eyJ1IjoiZm12YWxkZXpnODQiLCJhIjoiY2w5eWJzMzkwMDNiaDNvbGltamV1ajdvNiJ9.esyugI1HyBVPAQcRN551xw';
 
-      var layers = [
-        'high_sites',
-        'high_sites_props',
-        'mesh_nodes',
-        'public_spaces',
-        'rooftop_hubs',
-        'rooftop_hubs_prosp'
-      ];
+    const map = new mapboxgl.Map({
+      container: 'map',
+      style: 'mapbox://styles/mapbox/light-v11',
+      zoom: 13,
+      center: [-75.1405, 39.9839]
+    });
 
-      map.on('load', function() {
-        // Add the layers to the map
-        for (var i = 0; i < layers.length; i++) {
-          var layer = layers[i];
-          map.addSource(layer, {
+    // Define an array of GeoJSON layer URLs and their associated icons
+    const layers = [
+      {
+        url: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/high_sites.geojson',
+        icon: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/icons/high_sites.png',
+        id: 'high-sites-layer',
+        name: 'High Sites',
+        popup: '<h3>High Sites</h3><p>{name}</p>'
+      },
+      {
+        url: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/rooftop_hubs.geojson',
+        icon: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/icons/RooftopHub.png',
+        id: 'rooftop-hubs-layer',
+        name: 'Rooftop Hubs',
+        popup: '<h3>Rooftop Hubs</h3><p>{name}</p>'
+      },
+      {
+        url: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/mesh_nodes.geojson',
+        icon: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/icons/icon1.png',
+        id: 'mesh-nodes-layer',
+        name: 'Mesh Nodes',
+        popup: '<h3>Mesh Nodes</h3><p>{name}</p>'
+      },
+      {
+        url: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/network-points.geojson',
+        icon: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/icons/icon1.png',
+        id: 'mesh-nodes-layer',
+        name: 'Mesh Nodes',
+        popup: '<h3>Mesh Nodes</h3><p>{name}</p>'
+      }
+    ];
+
+    // Add the GeoJSON layers to the map
+    layers.forEach(layer => {
+      map.on('load', () => {
+        map.loadImage(layer.icon, (error, image) => {
+          if (error) throw error;
+          map.addImage(layer.icon, image);
+          map.addSource(layer.id, {
             type: 'geojson',
-            data: 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/' + layer + '.geojson'
+            data: layer.url
           });
           map.addLayer({
-            'id': layer,
-            'source': layer,
-            'type': 'circle',
-            'paint': {
-              'circle-radius': 10,
-              'circle-color': 'red'
-            }
+            id: layer.id,
+            type: 'symbol',
+            source: layer.id,
+            layout: {
+              'icon-image': layer.icon,
+              'icon-size': ['interpolate', ['linear'], ['zoom'], 0, 0.01, 17, 0.7],
+              'icon-allow-overlap': true,
+              'icon-ignore-placement': true,
+              'text-field': ['get','names'],
+              'text-size': ['interpolate', ['linear'], ['zoom'], 0, 12, 17, 16],
+              'text-anchor': 'left',
+              'text-justify': 'left',
+              'text-offset': [1.2,0],
+            },
+            paint: {
+              'icon-opacity': 0.9,
+              'text-halo-color': 'rgb(255, 255, 255)',
+              'text-halo-width': 2,
+              'text-halo-blur': 0.5,
+            },
+            sourceLayer: 'default',
+            minzoom: 12,
+            maxzoom: 22,
+            visible: true // Set the initial visibility to true
           });
-        }
+        });
       });
+    });
 
-    // After the last frame rendered before the map enters an "idle" state.
-map.on('idle', () => {
-//If these two layers were not added to the map, abort
-if (!map.getLayer('high_sites') || !map.getLayer('rooftop_hubs')) {
-return;
-}
- 
-// Enumerate ids of the layers.
-const toggleableLayerIds = ['high_sites', 'high_sites_props', 'mesh_nodes', 'public_spaces', 'rooftop_hubs', 'rooftop_hubs_prosp'];
- 
-// Set up the corresponding toggle button for each layer.
-for (const id of toggleableLayerIds) {
-// Skip layers that already have a button set up.
-if (document.getElementById(id)) {
-continue;
-}
- 
-// Create a link.
-const link = document.createElement('a');
-link.id = id;
-link.href = '#';
-link.textContent = id;
-link.className = 'active';
- 
-// Show or hide layer when the toggle is clicked.
-link.onclick = function (e) {
-const clickedLayer = this.textContent;
-e.preventDefault();
-e.stopPropagation();
- 
-const visibility = map.getLayoutProperty(
-clickedLayer,
-'visibility'
-);
- 
-// Toggle layer visibility by changing the layout object's visibility property.
-if (visibility === 'visible') {
-map.setLayoutProperty(clickedLayer, 'visibility', 'none');
-this.className = '';
-} else {
-this.className = 'active';
-map.setLayoutProperty(
-clickedLayer,
-'visibility',
-'visible'
-);
-}
+    // Toggle layer visibility based on checkbox state
+    const toggleLayer = (layerId, checked) => {
+      const visibility = checked ? 'visible' : 'none';
+      map.setLayoutProperty(layerId, 'visibility', visibility);
+
+      if (layerId === heatmapLayer.id) {
+        // Toggle heatmap layer visibility
+        map.setLayoutProperty('heatmap-layer', 'visibility', visibility);
+      }
+    };
+
+
+    // Attach event listeners to layer checkboxes
+    const layer1Checkbox = document.getElementById('layer1');
+    layer1Checkbox.addEventListener('change', () => {
+      toggleLayer(layers[0].id, layer1Checkbox.checked);
+    });
+
+    const layer2Checkbox = document.getElementById('layer2');
+    layer2Checkbox.addEventListener('change', () => {
+      toggleLayer(layers[1].id, layer2Checkbox.checked);
+    });
+
+    const layer3Checkbox = document.getElementById('layer3');
+    layer3Checkbox.addEventListener('change', () => {
+      toggleLayer(layers[2].id, layer3Checkbox.checked);
+    });
+
+    const layer4Checkbox = document.getElementById('layer4');
+    layer4Checkbox.addEventListener('change', () => {
+      toggleLayer(heatmapLayer.id, layer4Checkbox.checked);
+    });
+
+
+    // Add popup functionality
+    const popup = new mapboxgl.Popup({ closeButton: false, closeOnClick: false });
+
+    map.on('mouseenter', 'high-sites-layer', (e) => {
+      map.getCanvas().style.cursor = 'pointer';
+      const coordinates = e.features[0].geometry.coordinates.slice();
+      const layerIndex = layers.findIndex(layer => layer.url === 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/high_sites.geojson');
+      const nameProperty = e.features[0].properties.name;
+      const popupContent = layers[layerIndex].popup.replace('{name}', nameProperty);
+      popup.setLngLat(coordinates).setHTML(popupContent).addTo(map);
+    });
+
+    map.on('mouseenter', 'mesh-nodes-layer', (e) => {
+      map.getCanvas().style.cursor = 'pointer';
+      const coordinates = e.features[0].geometry.coordinates.slice();
+      const layerIndex = layers.findIndex(layer => layer.url === 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/mesh_nodes.geojson');
+      const nameProperty = e.features[0].properties.name;
+      const popupContent = layers[layerIndex].popup.replace('{name}', nameProperty);
+      popup.setLngLat(coordinates).setHTML(popupContent).addTo(map);
+    });
+
+    map.on('mouseenter', 'rooftop-hubs-layer', (e) => {
+      map.getCanvas().style.cursor = 'pointer';
+      const coordinates = e.features[0].geometry.coordinates.slice();
+      const layerIndex = layers.findIndex(layer => layer.url === 'https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/rooftop_hubs.geojson');
+      const nameProperty = e.features[0].properties.name;
+      const popupContent = layers[layerIndex].popup.replace('{name}', nameProperty);
+      popup.setLngLat(coordinates).setHTML(popupContent).addTo(map);
+    });
+
+    map.on('mouseleave', 'high-sites-layer', () => {
+      map.getCanvas().style.cursor = '';
+      popup.remove();
+    });
+
+    map.on('mouseleave', 'mesh-nodes-layer', () => {
+      map.getCanvas().style.cursor = '';
+      popup.remove();
+    });
+
+    map.on('mouseleave', 'rooftop-hubs-layer', () => {
+      map.getCanvas().style.cursor = '';
+      popup.remove();
+    });
+
+    // Function to navigate to a bookmark
+    function navigateToBookmark(bookmark) {
+      let zoom, center;
+      switch (bookmark) {
+        case 1:
+          zoom = 16;
+          center = [-75.1358, 39.9825];
+          break;
+        case 2:
+          zoom = 14;
+          center = [-75.1358, 39.9825];
+          break;
+        case 3:
+          zoom = 13;
+          center = [-75.1667418,39.9824];
+          break;
+        default:
+          zoom = 15;
+          center = [-75.1667418,39.9824];
+      }
+      map.flyTo({ center, zoom });
+    }
+
+  
+  const heatmapLayer = {
+  id: 'heatmap-layer',
+  type: 'heatmap',
+  source: 'heatmap-source',
+  minzoom: 12,
+  maxzoom: 20,
+  paint: {
+    // Heatmap intensity range
+    'heatmap-intensity': {
+      stops: [
+        [10, 0.5],
+        [20, 10]
+      ]
+    },
+    // Heatmap color gradient
+    'heatmap-color': [
+      'interpolate',
+      ['linear'],
+      ['heatmap-density'],
+      0, 'rgba(0, 0, 255, 0)', // adjust the color gradient as needed
+      0.2, 'rgba(255, 0, 0, 1)',
+      0.4, 'rgba(255, 165, 0, 1)',
+      0.6, 'rgba(255, 255, 0, 1)',
+      0.8, 'rgba(0, 255, 0, 1)'
+    ],
+    // Heatmap radius
+    'heatmap-radius': {
+      stops: [
+        [14, 30],
+        [18, 100]
+      ]
+    },
+    // Heatmap opacity
+    'heatmap-opacity': {
+        default: 1,
+        stops: [
+          [14, 0.5],
+          [20, 0.2]
+        ]
+    }
+  }
 };
- 
-const layers = document.getElementById('menu');
-layers.appendChild(link);
-}
+
+map.on('load', () => {
+  // Add the heatmap source
+  map.addSource('heatmap-source', {
+    type: 'geojson',
+    data: {
+      type: 'FeatureCollection',
+      features: [] // The heatmap features will be added dynamically later
+    }
+  });
+
+  // Add the heatmap layer
+  map.addLayer(heatmapLayer);
+
+  // Load the GeoJSON data for the heatmap from the rooftop hubs and mesh node layers
+  // and add it to the heatmap source
+  // Make sure to update the URLs for the rooftop hubs and mesh node GeoJSON files
+  fetch('https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/network-points.geojson')
+    .then(response => response.json())
+    .then(data => {
+      map.getSource('heatmap-source').setData(data);
+    });
 });
-    </script>
-  </body>
+  </script>
+</body>
 </html>
