@@ -21,6 +21,7 @@
 { "type": "Feature", "properties": { "qc_id": 15, "name": "1941 N Lawrence St - Iglesias Gardens / Angel\n", "icon": "RooftopHub", "description": null }, "geometry": { "type": "MultiPoint", "coordinates": [ [ -75.141518, 39.980842, 0.0 ] ] } },
 { "type": "Feature", "properties": { "qc_id": 16, "name": "137 Susquehannah", "icon": "RooftopHub", "description": null }, "geometry": { "type": "MultiPoint", "coordinates": [ [ -75.1342331, 39.9837666, 0.0 ] ] } },
 { "type": "Feature", "properties": { "qc_id": 17, "name": "1030 Mascher St", "icon": "RooftopHub", "description": null }, "geometry": { "type": "MultiPoint", "coordinates": [ [ -75.135146, 39.9812819, 0.0 ] ] } },
-{ "type": "Feature", "properties": { "qc_id": 18, "name": "Lillian Marrero Library", "icon": "RooftopHub", "description": null }, "geometry": { "type": "MultiPoint", "coordinates": [ [ -75.142415, 39.9927833, 0.0 ] ] } }
+{ "type": "Feature", "properties": { "qc_id": 18, "name": "Lillian Marrero Library", "icon": "RooftopHub", "description": null }, "geometry": { "type": "MultiPoint", "coordinates": [ [ -75.142415, 39.9927833, 0.0 ] ] } },
+{ "type": "Feature", "properties": { "qc_id": 19, "name": "Prevention Point", "icon": "RooftopHub", "description": null }, "geometry": { "type": "MultiPoint", "coordinates": [ [ -75.11967946930905, 39.993683696725604, 0.0 ] ] } }
 ]
 }
