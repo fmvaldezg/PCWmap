@@ -42,6 +42,16 @@
       z-index: 1;
     }
 
+    .switch-container {
+      display: flex;
+      align-items: center;
+      margin-right: 10px; /* Add margin to the right */
+    }
+
+    .switch-container div:last-child {
+      margin-left: 10px; /* Add margin to the left for the text */
+    }
+
 
 
   </style>
@@ -91,7 +101,11 @@
     <button class="btn btn--gray btn--pill-vb" onclick="navigateToBookmark(3, 60, 180)">3D View</button>
     </div>
     <div>Animate</div>
-    <button class="btn btn--gray" onclick="toggleAnimateNetworkLinks()">Network Level 1</button>
+    <label class="switch-container">
+      <input type="checkbox" id="toggleNetworkLinks" />
+      <div class="switch"></div>
+      <div>Network Level 1</div>
+    </label>
   </div>
 
   <script src="https://api.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.js"></script>
@@ -202,6 +216,7 @@
             type: 'line',
             source: 'line',
             id: 'line-background',
+            visibility: 'none',
             paint: {
                 'line-color': 'lime',
                 'line-width': 4,
@@ -214,6 +229,7 @@
             type: 'line',
             source: 'line',
             id: 'line-dashed',
+            visibility: 'none',
             paint: {
                 'line-color': 'lime',
                 'line-width': 4,
@@ -266,20 +282,27 @@
         animateDashArray(0);
     });
 
-  function toggleAnimateNetworkLinks() {
-    const lineBackgroundLayer = map.getLayer('line-background');
-    const lineDashedLayer = map.getLayer('line-dashed');
+// Add event listener to the checkbox input
+const toggleCheckbox = document.getElementById('toggleNetworkLinks');
+toggleCheckbox.addEventListener('change', () => {
+  toggleAnimateNetworkLinks();
+});
 
-  // If either one of the layers is visible, make both layers invisible
-  if (lineBackgroundLayer && lineBackgroundLayer.visibility !== 'none') {
-    map.setLayoutProperty('line-background', 'visibility', 'none');
-    map.setLayoutProperty('line-dashed', 'visibility', 'none');
-  } else {
-    // Otherwise, make both layers visible
+function toggleAnimateNetworkLinks() {
+  const lineBackgroundLayer = map.getLayer('line-background');
+  const lineDashedLayer = map.getLayer('line-dashed');
+
+  // If the checkbox is checked, make both layers visible
+  if (toggleCheckbox.checked) {
     map.setLayoutProperty('line-background', 'visibility', 'visible');
     map.setLayoutProperty('line-dashed', 'visibility', 'visible');
+  } else {
+    // Otherwise, make both layers invisible
+    map.setLayoutProperty('line-background', 'visibility', 'none');
+    map.setLayoutProperty('line-dashed', 'visibility', 'none');
   }
 }
+
 
     // Toggle layer visibility based on checkbox state
     const toggleLayer = (layerId, checked) => {
@@ -510,6 +533,8 @@ fetch('https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/network-poin
 
     map.on('load', () => {
       map.setLayoutProperty(heatmapLayer.id, 'visibility', 'none');
+      map.setLayoutProperty('line-background', 'visibility', 'none');
+      map.setLayoutProperty('line-dashed', 'visibility', 'none');
     });
 
 
