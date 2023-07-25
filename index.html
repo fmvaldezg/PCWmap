@@ -1,4 +1,5 @@
 
+<!--This code implements 3D views in the third bookmark-->
 <!DOCTYPE html>
 <html>
 <head>
@@ -6,24 +7,24 @@
   <title>PhillyCommunity Wireless Network</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://api.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.css" rel="stylesheet">
+  <link href='https://api.mapbox.com/mapbox-assembly/v1.3.0/assembly.min.css' rel='stylesheet'>
+  <script src='https://api.mapbox.com/mapbox-assembly/v1.3.0/assembly.js'></script>
   <style>
     body { margin: 0; padding: 0; }
     #map { position: absolute; top: 0; bottom: 0; width: 100%; }
+
     .map-overlay {
       position: absolute;
       top: 10px;
       right: 10px;
-      background-color: #ccc3c3;
-      padding: 10px;
-      border-radius: 4px;
+      background-color: rgb(227, 229, 230);
+      padding: 0px;
+      border-radius: 10px;
       font-family: Arial, sans-serif;
       z-index: 1;
     }
-    .map-overlay label {
-      display: block;
-      margin-bottom: 5px;
-    }
-    .layer-icon {
+
+  .layer-icon {
       width: 20px;
       height: 20px;
       display: inline-block;
@@ -32,54 +33,78 @@
 
     .bookmarks {
       position: absolute;
-      top: 10px;
-      left: 10px;
-      background-color: #b6b0b0;
+      top: 250px;
+      right: 20px;
+      background-color: #d2d2d2;
       padding: 10px;
       border-radius: 4px;
       font-family: Arial, sans-serif;
       z-index: 1;
     }
 
-    .bookmarks button {
-      display: block;
-      margin-bottom: 5px;
-    }
+
+
   </style>
 </head>
 <body>
   <div id="map"></div>
-  <div class="map-overlay">
-    <label>
-      <input type="checkbox" id="layer1" checked> <img class="layer-icon" src="https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/icons/high_sites.png"> High Sites
-    </label>
-    <label>
-      <input type="checkbox" id="layer2" checked> <img class="layer-icon" src="https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/icons/RooftopHub.png"> Rooftop Hubs
-    </label>
-    <label>
-      <input type="checkbox" id="layer3" checked> <img class="layer-icon" src="https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/icons/icon1.png"> Mesh Nodes
-    </label>
-    <label>
-      <input type="checkbox" id="layer4"checked> Heatmap
-    </label>
+    <div class="map-overlay">
+
+      <div class='relative bg-gray-lighter mx6 my6 w180 round'>
+        <div>Select layers:</div>
+        <label class='checkbox-container'>
+          <input type='checkbox' id="layer1" checked/>
+          <div class='checkbox mr6 checkbox--s-label'>
+            <svg class='icon'><use xlink:href='#icon-check' /></svg>
+          </div>
+          <img class="layer-icon" src="https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/icons/high_sites.png"> High Sites
+        </label>
+        <label class='checkbox-container'>
+          <input type='checkbox' id="layer2" checked/>
+          <div class='checkbox mr6 checkbox--s-label'>
+            <svg class='icon'><use xlink:href='#icon-check' /></svg>
+          </div>
+          <img class="layer-icon" src="https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/icons/RooftopHub.png"> Rooftop Hubs
+        </label>
+        <label class='checkbox-container'>
+          <input type='checkbox' id="layer3" checked/>
+          <div class='checkbox mr6 checkbox--s-label'>
+            <svg class='icon'><use xlink:href='#icon-check' /></svg>
+          </div>
+          <img class="layer-icon" src="https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/icons/icon1.png"> Mesh Nodes
+        </label>
+        <label class='checkbox-container'>
+          <input type='checkbox' id="layer4" />
+          <div class='checkbox mr6 checkbox--s-label'>
+            <svg class='icon'><use xlink:href='#icon-check' /></svg>
+          </div>
+          Heatmap
+        </label>
+      </div>
   </div>
   
   <div class="bookmarks">
     <div>Navigate to</div>
-    <button onclick="navigateToBookmark(1)">Norris Square Park</button>
-    <button onclick="navigateToBookmark(2)">Existing Network</button>
-    <button onclick="navigateToBookmark(3)">Prospective Network</button>
+    <div class="inline-flex flex--column">
+    <button class="btn btn--gray btn--pill-vt" onclick="navigateToBookmark(1, 0, 0)">Norris Square Park</button>
+    <button class="btn btn--gray btn--pill-vc" onclick="navigateToBookmark(2, 0, 90)">Existing Network</button>
+    <button class="btn btn--gray btn--pill-vb" onclick="navigateToBookmark(3, 60, 180)">3D View</button>
+    </div>
+    <div>Animate</div>
+    <button class="btn btn--gray" onclick="toggleAnimateNetworkLinks()">Network Level 1</button>
   </div>
 
   <script src="https://api.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.js"></script>
   <script>
-    mapboxgl.accessToken = 'pk.eyJ1IjoiZm12YWxkZXpnODQiLCJhIjoiY2w5eWJzMzkwMDNiaDNvbGltamV1ajdvNiJ9.esyugI1HyBVPAQcRN551xw';
+    mapboxgl.accessToken = 'pk.eyJ1IjoiZm12YWxkZXpnODQiLCJhIjoiY2xqajJzZXZ2MDU3ZTNybHBrdHo4OWo4aSJ9.ENnejUYGtJT-74gG0opSQA';
 
     const map = new mapboxgl.Map({
       container: 'map',
-      style: 'mapbox://styles/mapbox/light-v11',
+      style: 'mapbox://styles/mapbox/dark-v11',
       zoom: 13,
-      center: [-75.1405, 39.9839]
+      center: [-75.1405, 39.9839],
+      pitch: 0,
+      bearing: 0,
     });
 
     // Define an array of GeoJSON layer URLs and their associated icons
@@ -111,6 +136,18 @@
         id: 'mesh-nodes-layer',
         name: 'Mesh Nodes',
         popup: '<h3>Mesh Nodes</h3><p>{name}</p>'
+      },
+      {
+        url: 'https://raw.githubusercontent.com/fmvaldezg/PCW_animatedlines/main/data/level1.geojson',
+        id: 'level1',
+        name: 'Level 1',
+        popup: '<h3>Mesh Nodes</h3><p>{name}to{name_2}</p>'
+      },
+      {
+        url: 'https://raw.githubusercontent.com/fmvaldezg/PCW_animatedlines/main/data/level2.geojson',
+        id: 'level2',
+        name: 'Level 2',
+        popup: '<h3>Mesh Nodes</h3><p>{name}to{name_2}</p>'
       }
     ];
 
@@ -153,15 +190,106 @@
         });
       });
     });
+    
+    map.on('load', () => {
+        map.addSource('line', {
+            type: 'geojson',
+            data: 'https://raw.githubusercontent.com/fmvaldezg/PCW_animatedlines/main/data/level1.geojson'
+        });
+
+        // add a line layer without line-dasharray defined to fill the gaps in the dashed line
+        map.addLayer({
+            type: 'line',
+            source: 'line',
+            id: 'line-background',
+            paint: {
+                'line-color': 'lime',
+                'line-width': 4,
+                'line-opacity': 0.4
+            }
+        });
+
+        // add a line layer with line-dasharray set to the first value in dashArraySequence
+        map.addLayer({
+            type: 'line',
+            source: 'line',
+            id: 'line-dashed',
+            paint: {
+                'line-color': 'lime',
+                'line-width': 4,
+                'line-dasharray': [0, 4, 3]
+            }
+        });
+
+        // technique based on https://jsfiddle.net/2mws8y3q/
+        // an array of valid line-dasharray values, specifying the lengths of the alternating dashes and gaps that form the dash pattern
+        const dashArraySequence = [
+            [0, 4, 3],
+            [0.5, 4, 2.5],
+            [1, 4, 2],
+            [1.5, 4, 1.5],
+            [2, 4, 1],
+            [2.5, 4, 0.5],
+            [3, 4, 0],
+            [0, 0.5, 3, 3.5],
+            [0, 1, 3, 3],
+            [0, 1.5, 3, 2.5],
+            [0, 2, 3, 2],
+            [0, 2.5, 3, 1.5],
+            [0, 3, 3, 1],
+            [0, 3.5, 3, 0.5]
+        ];
+
+        let step = 0;
+
+        function animateDashArray(timestamp) {
+            // Update line-dasharray using the next value in dashArraySequence. The
+            // divisor in the expression `timestamp / 50` controls the animation speed.
+            const newStep = parseInt(
+                (timestamp / 100) % dashArraySequence.length
+            );
+
+            if (newStep !== step) {
+                map.setPaintProperty(
+                    'line-dashed',
+                    'line-dasharray',
+                    dashArraySequence[step]
+                );
+                step = newStep;
+            }
+
+            // Request the next frame of the animation.
+            requestAnimationFrame(animateDashArray);
+        }
+
+        // start the animation
+        animateDashArray(0);
+    });
+
+  function toggleAnimateNetworkLinks() {
+    const lineBackgroundLayer = map.getLayer('line-background');
+    const lineDashedLayer = map.getLayer('line-dashed');
+
+  // If either one of the layers is visible, make both layers invisible
+  if (lineBackgroundLayer && lineBackgroundLayer.visibility !== 'none') {
+    map.setLayoutProperty('line-background', 'visibility', 'none');
+    map.setLayoutProperty('line-dashed', 'visibility', 'none');
+  } else {
+    // Otherwise, make both layers visible
+    map.setLayoutProperty('line-background', 'visibility', 'visible');
+    map.setLayoutProperty('line-dashed', 'visibility', 'visible');
+  }
+}
 
     // Toggle layer visibility based on checkbox state
     const toggleLayer = (layerId, checked) => {
       const visibility = checked ? 'visible' : 'none';
       map.setLayoutProperty(layerId, 'visibility', visibility);
-
       if (layerId === heatmapLayer.id) {
-        // Toggle heatmap layer visibility
+    // Toggle heatmap layer visibility
         map.setLayoutProperty('heatmap-layer', 'visibility', visibility);
+      } else {
+        map.setLayoutProperty(layerId, 'visibility', visibility);
       }
     };
 
@@ -186,7 +314,6 @@
     layer4Checkbox.addEventListener('change', () => {
       toggleLayer(heatmapLayer.id, layer4Checkbox.checked);
     });
-
 
     // Add popup functionality
     const popup = new mapboxgl.Popup({ closeButton: false, closeOnClick: false });
@@ -234,26 +361,43 @@
     });
 
     // Function to navigate to a bookmark
-    function navigateToBookmark(bookmark) {
-      let zoom, center;
-      switch (bookmark) {
-        case 1:
-          zoom = 16;
-          center = [-75.1358, 39.9825];
-          break;
-        case 2:
-          zoom = 14;
-          center = [-75.1358, 39.9825];
-          break;
-        case 3:
-          zoom = 13;
-          center = [-75.1667418,39.9824];
-          break;
-        default:
-          zoom = 15;
-          center = [-75.1667418,39.9824];
-      }
-      map.flyTo({ center, zoom });
+    function navigateToBookmark(bookmarkId, pitch, bearing) {
+      switch (bookmarkId) {
+          case 1:
+            map.flyTo({
+              center: [-75.1358, 39.9825],
+              zoom: 16,
+              pitch: pitch,
+              bearing: bearing,
+              speed: 0.8,
+              curve: 1.2,
+            });
+            break;
+          case 2:
+            map.flyTo({
+              center: [-75.1300, 39.9825],
+              zoom: 13.7,
+              pitch: pitch,
+              bearing: bearing,
+              speed: 0.8,
+              curve: 1.2,
+            });
+            break;
+          case 3:
+            map.flyTo({
+              center: [-75.1358, 39.9840],
+              zoom: 17,
+              pitch: pitch,
+              bearing: bearing,
+              speed: 0.8,
+              curve: 1.2,
+            });
+            break;
+          default:
+            break;
+        }
+      
+      //map.flyTo({ center, zoom });
     }
 
   
@@ -297,31 +441,86 @@
           [20, 0.2]
         ]
     }
-  }
+  },
+  visibility: 'none'
 };
 
-map.on('load', () => {
-  // Add the heatmap source
-  map.addSource('heatmap-source', {
-    type: 'geojson',
-    data: {
-      type: 'FeatureCollection',
-      features: [] // The heatmap features will be added dynamically later
-    }
+map.on('style.load', () => {
+// Insert the layer beneath any symbol layer.
+  const layers = map.getStyle().layers;
+  const labelLayerId = layers.find(
+  (layer) => layer.type === 'symbol' && layer.layout['text-field']
+  ).id;
+  
+  // The 'building' layer in the Mapbox Streets
+  // vector tileset contains building height data
+  // from OpenStreetMap.
+  map.addLayer(
+    {
+    'id': 'add-3d-buildings',
+    'source': 'composite',
+    'source-layer': 'building',
+    'filter': ['==', 'extrude', 'true'],
+    'type': 'fill-extrusion',
+    'minzoom': 15,
+    'visibility': 'none',
+    'paint': {
+      'fill-extrusion-color': '#aaa',
+      
+      // Use an 'interpolate' expression to
+      // add a smooth transition effect to
+      // the buildings as the user zooms in.
+      'fill-extrusion-height': [
+        'interpolate',
+        ['linear'],
+        ['zoom'],
+        15,
+        0,
+        15.05,
+        ['get', 'height']
+      ],
+      'fill-extrusion-base': [
+        'interpolate',
+        ['linear'],
+        ['zoom'],
+        15,
+        0,
+        15.05,
+        ['get', 'min_height']
+      ],
+      'fill-extrusion-opacity': 0.6
+      }
+    },
+  labelLayerId
+  );
   });
 
-  // Add the heatmap layer
-  map.addLayer(heatmapLayer);
 
-  // Load the GeoJSON data for the heatmap from the rooftop hubs and mesh node layers
-  // and add it to the heatmap source
-  // Make sure to update the URLs for the rooftop hubs and mesh node GeoJSON files
-  fetch('https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/network-points.geojson')
-    .then(response => response.json())
-    .then(data => {
-      map.getSource('heatmap-source').setData(data);
+fetch('https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/network-points.geojson')
+  .then(response => response.json())
+  .then(data => {
+    map.addSource('heatmap-source', {
+        type: 'geojson',
+        data: data
     });
+
+    map.addLayer(heatmapLayer);
+    
+    map.setLayoutProperty(heatmapLayer.id, 'visibility', 'none');
+
+    map.on('load', () => {
+      map.setLayoutProperty(heatmapLayer.id, 'visibility', 'none');
+    });
+
+
+    map.getSource('heatmap-source').setData(data);
+    
+  });
+
+const nav = new mapboxgl.NavigationControl({
+visualizePitch: true
 });
+map.addControl(nav, 'bottom-right');
   </script>
 </body>
 </html>
