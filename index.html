@@ -17,23 +17,23 @@
       position: absolute;
       top: 10px;
       right: 10px;
-      background-color: rgb(227, 229, 230);
+      background-color: #d2d2d2;
       padding: 0px;
       border-radius: 10px;
       font-family: Arial, sans-serif;
       z-index: 1;
     }
 
-  .layer-icon {
-      width: 20px;
-      height: 20px;
-      display: inline-block;
-      margin-right: 5px;
-    }
+    .layer-icon {
+        width: 20px;
+        height: 20px;
+        display: inline-block;
+        margin-right: 5px;
+      }
 
     .bookmarks {
       position: absolute;
-      top: 250px;
+      top: 20px;
       right: 20px;
       background-color: #d2d2d2;
       padding: 10px;
@@ -60,51 +60,57 @@
   <div id="map"></div>
     <div class="map-overlay">
 
-      <div class='relative bg-gray-lighter mx6 my6 w180 round'>
-        <div>Select layers:</div>
-        <label class='checkbox-container'>
-          <input type='checkbox' id="layer1" checked/>
-          <div class='checkbox mr6 checkbox--s-label'>
-            <svg class='icon'><use xlink:href='#icon-check' /></svg>
-          </div>
-          <img class="layer-icon" src="https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/icons/high_sites.png"> High Sites
-        </label>
-        <label class='checkbox-container'>
-          <input type='checkbox' id="layer2" checked/>
-          <div class='checkbox mr6 checkbox--s-label'>
-            <svg class='icon'><use xlink:href='#icon-check' /></svg>
-          </div>
-          <img class="layer-icon" src="https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/icons/RooftopHub.png"> Rooftop Hubs
-        </label>
-        <label class='checkbox-container'>
-          <input type='checkbox' id="layer3" checked/>
-          <div class='checkbox mr6 checkbox--s-label'>
-            <svg class='icon'><use xlink:href='#icon-check' /></svg>
-          </div>
-          <img class="layer-icon" src="https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/icons/icon1.png"> Mesh Nodes
-        </label>
-        <label class='checkbox-container'>
-          <input type='checkbox' id="layer4" />
-          <div class='checkbox mr6 checkbox--s-label'>
-            <svg class='icon'><use xlink:href='#icon-check' /></svg>
-          </div>
-          Heatmap
-        </label>
-      </div>
+
   </div>
   
   <div class="bookmarks">
-    <div>Navigate to</div>
+    <div>Select layers:</div>
+    <div class='relative bg-gray-lighter mx6 my6 w180 round'>
+      <label class='checkbox-container'>
+        <input type='checkbox' id="layer1" checked/>
+        <div class='checkbox mr6 checkbox--s-label'>
+          <svg class='icon'><use xlink:href='#icon-check' /></svg>
+        </div>
+        <img class="layer-icon" src="https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/icons/high_sites.png"> High Sites
+      </label>
+      <label class='checkbox-container'>
+        <input type='checkbox' id="layer2" checked/>
+        <div class='checkbox mr6 checkbox--s-label'>
+          <svg class='icon'><use xlink:href='#icon-check' /></svg>
+        </div>
+        <img class="layer-icon" src="https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/icons/RooftopHub.png"> Rooftop Hubs
+      </label>
+      <label class='checkbox-container'>
+        <input type='checkbox' id="layer3" checked/>
+        <div class='checkbox mr6 checkbox--s-label'>
+          <svg class='icon'><use xlink:href='#icon-check' /></svg>
+        </div>
+        <img class="layer-icon" src="https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/icons/icon1.png"> Mesh Nodes
+      </label>
+      <label class='checkbox-container'>
+        <input type='checkbox' id="layer4" />
+        <div class='checkbox mr6 checkbox--s-label'>
+          <svg class='icon'><use xlink:href='#icon-check' /></svg>
+        </div>
+        Heatmap
+      </label>
+    </div>
+    <div>Navigate to:</div>
     <div class="inline-flex flex--column">
     <button class="btn btn--gray btn--pill-vt" onclick="navigateToBookmark(1, 0, 0)">Norris Square Park</button>
     <button class="btn btn--gray btn--pill-vc" onclick="navigateToBookmark(2, 0, 90)">Existing Network</button>
     <button class="btn btn--gray btn--pill-vb" onclick="navigateToBookmark(3, 60, 180)">3D View</button>
     </div>
-    <div>Animate</div>
+    <div>Animate Network:</div>
     <label class="switch-container">
       <input type="checkbox" id="toggleNetworkLinks" />
       <div class="switch"></div>
-      <div>Network Level 1</div>
+      <div>Level 1</div>
+    </label>
+    <label class="switch-container">
+      <input type="checkbox" id="toggleNetworkLinks2" />
+      <div class="switch"></div>
+      <div>Level 2</div>
     </label>
   </div>
 
@@ -115,7 +121,7 @@
     const map = new mapboxgl.Map({
       container: 'map',
       style: 'mapbox://styles/mapbox/dark-v11',
-      zoom: 13,
+      zoom: 14,
       center: [-75.1405, 39.9839],
       pitch: 0,
       bearing: 0,
@@ -151,18 +157,6 @@
         name: 'Mesh Nodes',
         popup: '<h3>Mesh Nodes</h3><p>{name}</p>'
       },
-      {
-        url: 'https://raw.githubusercontent.com/fmvaldezg/PCW_animatedlines/main/data/level1.geojson',
-        id: 'level1',
-        name: 'Level 1',
-        popup: '<h3>Mesh Nodes</h3><p>{name}to{name_2}</p>'
-      },
-      {
-        url: 'https://raw.githubusercontent.com/fmvaldezg/PCW_animatedlines/main/data/level2.geojson',
-        id: 'level2',
-        name: 'Level 2',
-        popup: '<h3>Mesh Nodes</h3><p>{name}to{name_2}</p>'
-      }
     ];
 
     // Add the GeoJSON layers to the map
@@ -199,7 +193,7 @@
             sourceLayer: 'default',
             minzoom: 12,
             maxzoom: 22,
-            visible: true // Set the initial visibility to true
+            visible: layer.visible // Set the initial visibility to true
           });
         });
       });
@@ -211,12 +205,19 @@
             data: 'https://raw.githubusercontent.com/fmvaldezg/PCW_animatedlines/main/data/level1.geojson'
         });
 
+        map.addSource('new-line', {
+            type: 'geojson',
+            data: 'https://raw.githubusercontent.com/fmvaldezg/PCW_animatedlines/main/data/level2.geojson'
+          });
+
+
         // add a line layer without line-dasharray defined to fill the gaps in the dashed line
         map.addLayer({
             type: 'line',
             source: 'line',
             id: 'line-background',
             visibility: 'none',
+            minzoom: 13,
             paint: {
                 'line-color': 'lime',
                 'line-width': 4,
@@ -230,12 +231,40 @@
             source: 'line',
             id: 'line-dashed',
             visibility: 'none',
+            minzoom: 13,
             paint: {
                 'line-color': 'lime',
                 'line-width': 4,
                 'line-dasharray': [0, 4, 3]
             }
         });
+
+        map.addLayer({
+            type: 'line',
+            source: 'new-line',
+            id: 'new-line-background',
+            visibility: 'none',
+            minzoom: 13,
+            paint: {
+              'line-color': 'magenta',
+              'line-width': 4,
+              'line-opacity': 0.4
+            }
+          });
+
+          // Add a line layer with line-dasharray set to the first value in dashArraySequence for the new layer
+          map.addLayer({
+            type: 'line',
+            source: 'new-line',
+            id: 'new-line-dashed',
+            visibility: 'none',
+            minzoom: 13,
+            paint: {
+              'line-color': 'magenta',
+              'line-width': 4,
+              'line-dasharray': [0, 4, 3]
+            }
+          });
 
         // technique based on https://jsfiddle.net/2mws8y3q/
         // an array of valid line-dasharray values, specifying the lengths of the alternating dashes and gaps that form the dash pattern
@@ -260,17 +289,11 @@
 
         function animateDashArray(timestamp) {
             // Update line-dasharray using the next value in dashArraySequence. The
-            // divisor in the expression `timestamp / 50` controls the animation speed.
-            const newStep = parseInt(
-                (timestamp / 100) % dashArraySequence.length
-            );
+            // divisor in the expression `timestamp / 100` controls the animation speed.
+            const newStep = parseInt((timestamp / 100) % dashArraySequence.length);
 
             if (newStep !== step) {
-                map.setPaintProperty(
-                    'line-dashed',
-                    'line-dasharray',
-                    dashArraySequence[step]
-                );
+                map.setPaintProperty('line-dashed', 'line-dasharray', dashArraySequence[step]);
                 step = newStep;
             }
 
@@ -278,8 +301,43 @@
             requestAnimationFrame(animateDashArray);
         }
 
-        // start the animation
+        const dashArraySequence2 = [
+            [0, 4, 3],
+            [0.5, 4, 2.5],
+            [1, 4, 2],
+            [1.5, 4, 1.5],
+            [2, 4, 1],
+            [2.5, 4, 0.5],
+            [3, 4, 0],
+            [0, 0.5, 3, 3.5],
+            [0, 1, 3, 3],
+            [0, 1.5, 3, 2.5],
+            [0, 2, 3, 2],
+            [0, 2.5, 3, 1.5],
+            [0, 3, 3, 1],
+            [0, 3.5, 3, 0.5]
+        ];
+
+        let step2 = 0;
+
+        function animateNewLine(timestamp) {
+            // Update line-dasharray using the next value in dashArraySequence for the new layer.
+            const newStep2 = parseInt((timestamp / 200) % dashArraySequence2.length);
+
+            if (newStep2 !== step2) {
+                map.setPaintProperty('new-line-dashed', 'line-dasharray', dashArraySequence2[step2]);
+                step2 = newStep2;
+            }
+
+            // Request the next frame of the animation.
+            requestAnimationFrame(animateNewLine);
+        }
+
+        // Start the animations
         animateDashArray(0);
+        animateNewLine(0);
+
+
     });
 
 // Add event listener to the checkbox input
@@ -303,6 +361,29 @@ function toggleAnimateNetworkLinks() {
   }
 }
 
+  // Add event listener to the checkbox input for the new layer
+const newLayerCheckbox = document.getElementById('toggleNetworkLinks2');
+newLayerCheckbox.addEventListener('change', () => {
+  toggleNewLine();
+});
+
+function toggleNewLine() {
+  const newLineBackgroundLayer = map.getLayer('new-line-background');
+  const newLineDashedLayer = map.getLayer('new-line-dashed');
+
+  // If the checkbox is checked, make both layers visible and start the animation
+  if (newLayerCheckbox.checked) {
+    map.setLayoutProperty('new-line-background', 'visibility', 'visible');
+    map.setLayoutProperty('new-line-dashed', 'visibility', 'visible');
+    step2 = 0;
+    animateNewLine(0); // Start the animation
+  } else {
+    // Otherwise, make both layers invisible
+    map.setLayoutProperty('new-line-background', 'visibility', 'none');
+    map.setLayoutProperty('new-line-dashed', 'visibility', 'none');
+    cancelAnimationFrame(animateNewLine);
+  }
+}
 
     // Toggle layer visibility based on checkbox state
     const toggleLayer = (layerId, checked) => {
@@ -388,8 +469,8 @@ function toggleAnimateNetworkLinks() {
       switch (bookmarkId) {
           case 1:
             map.flyTo({
-              center: [-75.1358, 39.9825],
-              zoom: 16,
+              center: [-75.13537, 39.98299],
+              zoom: 16.7,
               pitch: pitch,
               bearing: bearing,
               speed: 0.8,
@@ -535,6 +616,8 @@ fetch('https://raw.githubusercontent.com/fmvaldezg/PCWmap/main/data/network-poin
       map.setLayoutProperty(heatmapLayer.id, 'visibility', 'none');
       map.setLayoutProperty('line-background', 'visibility', 'none');
       map.setLayoutProperty('line-dashed', 'visibility', 'none');
+      map.setLayoutProperty('new-line-background', 'visibility', 'none');
+      map.setLayoutProperty('new-line-dashed', 'visibility', 'none');
     });
 
 
